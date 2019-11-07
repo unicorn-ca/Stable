@@ -1,0 +1,51 @@
+body {
+	margin: 0;
+}
+
+#header {
+	height: 10%;
+	width: 100%;
+	background-color: red;
+}
+
+#pipeline {
+	width: 25%;
+	height: 90%;
+	float: left;
+	background-color: blue;
+}
+
+.pipeline-element {
+	width: 100%;
+	background-color: yellow;
+	height: 150px;
+	line-height: 150px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 32px;
+}
+
+.pipeline-element p {
+	margin: 0;
+}
+
+#pipeline-options {
+	width: 75%;
+	height: 90%;
+	float: right;
+	background-color: grey;
+}
+
+#footer {
+
+}
+
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 200px solid transparent;
+  border-right: 200px solid transparent;
+  
+  border-top: 200px solid #f00;
+}
