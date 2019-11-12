@@ -4,21 +4,27 @@ function createPipelineElement(name) {
 	// pipeline element
 	var pipelineElement = document.createElement("div");
 	pipelineElement.className = "pipeline-element";
+	
+	var pipeImage = document.createElement("IMG");
+	pipeImage.setAttribute("src", "img/pipe.png")
 
 	var pipelineElementHeader = document.createElement("p");
+	pipelineElementHeader.className = "vertical-text";
 
 	var text = document.createTextNode(name);
 	pipelineElementHeader.appendChild(text);
 
+	pipelineElement.appendChild(pipeImage);
 	pipelineElement.appendChild(pipelineElementHeader);
 
 	pipeline.appendChild(pipelineElement);
 }
 
 function showDefaultPipeline() {
-	createPipelineElement("BUILD");
 	createPipelineElement("DEPLOY");
-	createPipelineElement("FUZZ");
+	// createPipelineElement("CHECK");
+	// createPipelineElement("DEPLOY");
+	// createPipelineElement("FUZZ");
 }
 
 showDefaultPipeline();
