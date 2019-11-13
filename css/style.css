@@ -10,33 +10,54 @@ body {
 }
 
 #pipeline {
-	width: 5%;
-	height: 90%;
+	width: 10%;
+	height: 100%;
 	padding-left: 5%;
 	padding-top: 3%;
 	float: left;
+	position: absolute;
 }
 
 .pipeline-element {
 	width: 100%;
 	height: 20%;
 	font-weight: bold;
-	font-size: 1.5vw;
-	border: 1px solid red;
 	position: relative;
+	border: 2px solid green;
+}
+
+.pipeline-text {
+	height: 100%;
+	width: 25%;
+	float: left;
+	border: 1px solid red;
+	
+	font-size: 1.5vw;
 	text-align: center;
+	vertical-align: middle;
+	position: relative;
+}
+
+.pipeline-image {
+	height: 100%;
+	width: 70%;
+	float: right;
+	border: 1px solid yellow;
+	position: relative;
 }
 
 .pipeline-element img {
 	height: 100%;
 	width: 100%;
- }
+}
 
 .vertical-text {
-	transform: rotate(270deg);
-	position: absolute;
-	top: 22%;
-	left: -30%;
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+	float: right;
+	position: relative;
+	left: 30%;
+	top: 7.5%;
 }
 
 #pipeline-options {
