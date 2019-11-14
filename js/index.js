@@ -1,4 +1,4 @@
-function createPipelineElement(name) {
+function createPipelineElement(name, img="img/pipe.png") {
 	var pipeline = document.getElementById("pipeline");
 
 	// pipeline element
@@ -22,7 +22,7 @@ function createPipelineElement(name) {
 
 	// Image of pipe
 	var pipeImage = document.createElement("IMG");
-	pipeImage.setAttribute("src", "img/pipe.png");
+	pipeImage.setAttribute("src", img);
 	pipelineImage.appendChild(pipeImage);
 
 	// Append to single object
@@ -36,7 +36,7 @@ function createPipelineElement(name) {
 	
 	pipelineElement.addEventListener("mouseleave", function() {
 		pipelineElementHeader.style.color = "black";
-		pipeImage.src = "img/pipe.png";
+		pipeImage.src = img;
 	});
 
 	pipeline.appendChild(pipelineElement);
@@ -47,6 +47,7 @@ function showDefaultPipeline() {
 	createPipelineElement("CHECK");
 	createPipelineElement("DEPLOY");
 	createPipelineElement("FUZZ");
+	createPipelineElement("ADD", "img/addPipe.png");
 }
 
 showDefaultPipeline();
