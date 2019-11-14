@@ -63,6 +63,7 @@ function createPipelineElement(name, img="img/pipe.png") {
 
 	pipelineElement.addEventListener("click", function() {
 		var pipelineElements = document.querySelectorAll('.pipeline-element');
+
 		for (i = 0; i < pipelineElements.length - 1; i++) {
 			pipelineElements[i].children[0].style.color = "#BB4B9F";
 			pipelineElements[i].children[1].children[0].src = "img/pipe.png";
@@ -72,12 +73,22 @@ function createPipelineElement(name, img="img/pipe.png") {
 		pipelineElementHeader.style.color = "#A091BD";
 		pipeImage.src = "img/pipe2.png";
 		pipelineElement.setAttribute("data-selected", "true");
+
+		var pipeline_options = document.getElementById("pipeline-options");
+
+		for (var i = 0; i < pipeline_options.children.length; i++) {
+			if (name.toLowerCase() + "_options" == pipeline_options.children[i].id) {
+				pipeline_options.children[i].style.display = "block";
+			} else {
+				pipeline_options.children[i].style.display = "none";
+			}
+		}
 	});
 
 	pipeline.appendChild(pipelineElement);
 }
 
-function showDefaultPipeline() {
+function generateDefaultPipeline() {
 	createPipelineElement("COMMIT", "img/pipe2.png");
 	createPipelineElement("BUILD");
 	createPipelineElement("DEPLOY");
@@ -137,20 +148,16 @@ function generateCommitOptions() {
 	// Branch
 	//
 
-	var pipeline_options = document.getElementById("pipeline-options");
-
 	var commit_options = document.createElement("div");
 	commit_options.id = "commit_options";
 	commit_options.className = "pipeline-options-container";
 
 	addText("h1", "Commit Options", commit_options);
 
-	pipeline_options.appendChild(commit_options);
+	return commit_options;
 }
 
 function generateBuildOptions() {
-	var pipeline_options = document.getElementById("pipeline-options");
-
 	var build_options = document.createElement("div");
 	build_options.id = "build_options";
 	build_options.className = "pipeline-options-container";
@@ -251,7 +258,7 @@ function generateBuildOptions() {
 
 	build_options.appendChild(version_table);
 
-	pipeline_options.appendChild(build_options);
+	return build_options;
 }
 
 function getBuildSpecString() {
@@ -348,6 +355,17 @@ function export_pipeline() {
 
 }
 
-showDefaultPipeline();
-//generateBuildOptions();
-generateCommitOptions();
+function generatePipelineBuilder() {
+	var pipeline_options = document.getElementById("pipeline-options");
+
+	generateDefaultPipeline();
+
+	var commit_options = generateCommitOptions();
+	pipeline_options.appendChild(commit_options);
+
+	var build_options = generateBuildOptions();
+	build_options.style.display = "none";
+	pipeline_options.appendChild(build_options);
+}
+
+generatePipelineBuilder();
