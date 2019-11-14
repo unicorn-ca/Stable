@@ -5,12 +5,12 @@ body {
 #header {
 	height: 10%;
 	width: 100%;
-	background-color: red;
+	background-color: lightgrey;
+	border-bottom: 1px solid black;
 }
 
 #pipeline {
 	width: 25%;
-	height: 90%;
 	float: left;
 	background-color: blue;
 }
@@ -31,9 +31,8 @@ body {
 
 #pipeline-options {
 	width: 75%;
-	height: 90%;
 	float: right;
-	background-color: grey;
+	background-color: lightgrey;
 }
 
 #footer {
@@ -47,4 +46,30 @@ body {
   border-right: 200px solid transparent;
   
   border-top: 200px solid #f00;
+}
+
+textarea {
+	width: 500px;
+	height: 100px;
+}
+
+#export_button {
+	height: 100%;
+	width: 200px;
+	float: right;
+	font-size: 24px;
+}
+
+td {
+	min-width: 120px;
+	padding: 5px;
+}
+
+#header h1 {
+	float: left;
+	margin-left: 20px;
+}
+
+.pipeline-options-container {
+	margin: 10px;
 }
