@@ -23,6 +23,7 @@ function createPipelineElement(name, img="img/pipe.png") {
 	// pipeline element
 	var pipelineElement = document.createElement("div");
 	pipelineElement.className = "pipeline-element";
+	pipelineElement.setAttribute("data-selected", "false");
 	
 	// Left half of pipeline
 	var pipelineText = document.createElement("div");
@@ -49,21 +50,36 @@ function createPipelineElement(name, img="img/pipe.png") {
 	pipelineElement.appendChild(pipelineImage);
 
 	pipelineElement.addEventListener("mouseover", function() {
-		pipelineElementHeader.style.color = "white";
+		pipelineElementHeader.style.color = "#A091BD";
 		pipeImage.src = "img/pipe2.png";
 	});
 	
 	pipelineElement.addEventListener("mouseleave", function() {
-		pipelineElementHeader.style.color = "black";
-		pipeImage.src = img;
+		if (this.getAttribute("data-selected") == "false") {
+			pipelineElementHeader.style.color = "#BB4B9F";
+			pipeImage.src = "img/pipe.png";
+		}
+	});
+
+	pipelineElement.addEventListener("click", function() {
+		var pipelineElements = document.querySelectorAll('.pipeline-element');
+		for (i = 0; i < pipelineElements.length - 1; i++) {
+			pipelineElements[i].children[0].style.color = "#BB4B9F";
+			pipelineElements[i].children[1].children[0].src = "img/pipe.png";
+			pipelineElements[i].setAttribute("data-selected", "false");
+		}
+		
+		pipelineElementHeader.style.color = "#A091BD";
+		pipeImage.src = "img/pipe2.png";
+		pipelineElement.setAttribute("data-selected", "true");
 	});
 
 	pipeline.appendChild(pipelineElement);
 }
 
 function showDefaultPipeline() {
-	createPipelineElement("DEPLOY");
-	createPipelineElement("CHECK");
+	createPipelineElement("COMMIT", "img/pipe2.png");
+	createPipelineElement("BUILD");
 	createPipelineElement("DEPLOY");
 	createPipelineElement("FUZZ");
 	createPipelineElement("ADD", "img/addPipe.png");
