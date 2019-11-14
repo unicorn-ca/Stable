@@ -1,6 +1,6 @@
 const version_docs = `Required mapping. Represents the build spec version. We recommend that you use 0.2.`;
 
-const phases_docs = `Required sequence. Represents the commands CodeBuild runs during each phase of the build.`;
+const phases_docs  = `Required sequence. Represents the commands CodeBuild runs during each phase of the build.`;
 const install_docs = `Optional sequence. Represents the commands, if any, that CodeBuild runs during installation. We recommend that you use the install phase only for installing packages in the build environment. For example, you might use this phase to install a code testing framework such as Mocha or RSpec.`;
 
 const runtime_versions_docs    = `Required if using the Ubuntu standard image 2.0 or later, or the Amazon Linux (AL2) standard image 1.0 or later. A runtime version is not supported with a custom image or the Ubuntu standard image 1.0. If specified, at least one runtime must be included in this section. Specify a runtime using a major version only, such as "java: openjdk11" or "ruby: 2.6." You can specify the runtime using a number or an environment variable. For example, if you use the Amazon Linux 2 standard image 1.0, then the following specifies that version 8 of Java, version 29 of Android, and a version contained in an environment variable of Ruby is installed. For more information, see Docker Images Provided by CodeBuild.`;
@@ -104,7 +104,35 @@ function addText(element, text, parent) {
 	parent.appendChild(heading);
 }
 
-function showBuildOptions() {
+function generatePipelineOptions() {
+	// dev account id
+	// prod account id
+
+	/// pipeline deployment options
+
+	// region
+	// deployment bucket name
+	// staging bucket key prefix (optional)
+	// fuzzer deployment key (optional)
+}
+
+function generateCommitOptions() {
+	//AppName
+	// Branch
+	//
+
+	var pipeline_options = document.getElementById("pipeline-options");
+
+	var commit_options = document.createElement("div");
+	commit_options.id = "commit_options";
+	commit_options.className = "pipeline-options-container";
+
+	addText("h1", "Commit Options", commit_options);
+
+	pipeline_options.appendChild(commit_options);
+}
+
+function generateBuildOptions() {
 	var pipeline_options = document.getElementById("pipeline-options");
 
 	var build_options = document.createElement("div");
@@ -112,6 +140,8 @@ function showBuildOptions() {
 	build_options.className = "pipeline-options-container";
 
 	addText("h1", "Build Options", build_options);
+
+	// docker image name
 
 	// version
 
@@ -303,4 +333,5 @@ function export_pipeline() {
 }
 
 showDefaultPipeline();
-showBuildOptions();
+//generateBuildOptions();
+generateCommitOptions();
