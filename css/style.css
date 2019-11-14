@@ -1,5 +1,6 @@
 body {
 	margin: 0;
+	background-color:#F8D1D5;
 }
 
 #header {
@@ -12,31 +13,52 @@ body {
 #pipeline {
 	width: 25%;
 	float: left;
-	background-color: blue;
+	position: absolute;
 }
 
 .pipeline-element {
 	width: 100%;
-	background-color: yellow;
-	height: 150px;
-	line-height: 150px;
-	text-align: center;
+	height: 20%;
 	font-weight: bold;
-	font-size: 32px;
+	position: relative;
 }
 
-.pipeline-element p {
-	margin: 0;
+.pipeline-text {
+	height: 100%;
+	width: 25%;
+	float: left;
+	
+	font-size: 1.5vw;
+	text-align: center;
+	vertical-align: middle;
+	position: relative;
+}
+
+.pipeline-image {
+	height: 100%;
+	width: 70%;
+	float: right;
+	position: relative;
+}
+
+.pipeline-element img {
+	height: 100%;
+	width: 100%;
+}
+
+.vertical-text {
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+	float: right;
+	position: relative;
+	left: 30%;
+	top: 7.5%;
 }
 
 #pipeline-options {
 	width: 75%;
 	float: right;
 	background-color: lightgrey;
-}
-
-#footer {
-
 }
 
 .arrow-down {

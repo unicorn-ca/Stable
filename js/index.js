@@ -17,27 +17,56 @@ const post_build_commands_docs = `Required if post_build is specified. Contains 
 const artifacts_docs           = `Optional sequence. Represents information about where CodeBuild can find the build output and how CodeBuild prepares it for uploading to the Amazon S3 output bucket. This sequence is not required if, for example, you are building and pushing a Docker image to Amazon ECR, or you are running unit tests on your source code, but not building it.`;
 const artifacts_files_docs     = `Required sequence. Represents the locations that contain the build output artifacts in the build environment. Contains a sequence of scalars, with each scalar representing a separate location where CodeBuild can find build output artifacts, relative to the original build location or, if set, the base directory.`;
 
-function createPipelineElement(name) {
+function createPipelineElement(name, img="img/pipe.png") {
 	var pipeline = document.getElementById("pipeline");
 
 	// pipeline element
 	var pipelineElement = document.createElement("div");
 	pipelineElement.className = "pipeline-element";
-
+	
+	// Left half of pipeline
+	var pipelineText = document.createElement("div");
+	pipelineText.className = "pipeline-text";
+	
+	// Text of pipeline
 	var pipelineElementHeader = document.createElement("p");
-
+	pipelineElementHeader.className = "vertical-text";
 	var text = document.createTextNode(name);
 	pipelineElementHeader.appendChild(text);
+	pipelineText.appendChild(pipelineElementHeader);
 
-	pipelineElement.appendChild(pipelineElementHeader);
+	// Right half of pipeline
+	var pipelineImage = document.createElement("div");
+	pipelineImage.className = "pipeline-image";
+
+	// Image of pipe
+	var pipeImage = document.createElement("IMG");
+	pipeImage.setAttribute("src", img);
+	pipelineImage.appendChild(pipeImage);
+
+	// Append to single object
+	pipelineElement.appendChild(pipelineText);
+	pipelineElement.appendChild(pipelineImage);
+
+	pipelineElement.addEventListener("mouseover", function() {
+		pipelineElementHeader.style.color = "white";
+		pipeImage.src = "img/pipe2.png";
+	});
+	
+	pipelineElement.addEventListener("mouseleave", function() {
+		pipelineElementHeader.style.color = "black";
+		pipeImage.src = img;
+	});
 
 	pipeline.appendChild(pipelineElement);
 }
 
 function showDefaultPipeline() {
-	createPipelineElement("BUILD");
+	createPipelineElement("DEPLOY");
+	createPipelineElement("CHECK");
 	createPipelineElement("DEPLOY");
 	createPipelineElement("FUZZ");
+	createPipelineElement("ADD", "img/addPipe.png");
 }
 
 function createThreeRowTable(elements) {
