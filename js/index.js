@@ -17,13 +17,13 @@ const post_build_commands_docs = `Required if post_build is specified. Contains 
 const artifacts_docs           = `Optional sequence. Represents information about where CodeBuild can find the build output and how CodeBuild prepares it for uploading to the Amazon S3 output bucket. This sequence is not required if, for example, you are building and pushing a Docker image to Amazon ECR, or you are running unit tests on your source code, but not building it.`;
 const artifacts_files_docs     = `Required sequence. Represents the locations that contain the build output artifacts in the build environment. Contains a sequence of scalars, with each scalar representing a separate location where CodeBuild can find build output artifacts, relative to the original build location or, if set, the base directory.`;
 
-function createPipelineElement(name, img="img/pipe.png") {
+function createPipelineElement(name, img="img/pipe.png", selected="false") {
 	var pipeline = document.getElementById("pipeline");
 
 	// pipeline element
 	var pipelineElement = document.createElement("div");
 	pipelineElement.className = "pipeline-element";
-	pipelineElement.setAttribute("data-selected", "false");
+	pipelineElement.setAttribute("data-selected", selected);
 	
 	// Left half of pipeline
 	var pipelineText = document.createElement("div");
@@ -44,32 +44,33 @@ function createPipelineElement(name, img="img/pipe.png") {
 	var pipeImage = document.createElement("IMG");
 	pipeImage.setAttribute("src", img);
 	pipelineImage.appendChild(pipeImage);
+	
+	// If its the first pipeline element set its image to initially be selected
+	if (pipelineElement.getAttribute("data-selected") == "true") {
+		pipeImage.setAttribute("src", "img/pipe2.png");
+	}
 
 	// Append to single object
 	pipelineElement.appendChild(pipelineText);
 	pipelineElement.appendChild(pipelineImage);
 
 	pipelineElement.addEventListener("mouseover", function() {
-		pipelineElementHeader.style.color = "#A091BD";
 		pipeImage.src = "img/pipe2.png";
 	});
 	
 	pipelineElement.addEventListener("mouseleave", function() {
 		if (this.getAttribute("data-selected") == "false") {
-			pipelineElementHeader.style.color = "#BB4B9F";
-			pipeImage.src = "img/pipe.png";
+			pipeImage.src = img;
 		}
 	});
 
 	pipelineElement.addEventListener("click", function() {
 		var pipelineElements = document.querySelectorAll('.pipeline-element');
 		for (i = 0; i < pipelineElements.length - 1; i++) {
-			pipelineElements[i].children[0].style.color = "#BB4B9F";
 			pipelineElements[i].children[1].children[0].src = "img/pipe.png";
 			pipelineElements[i].setAttribute("data-selected", "false");
 		}
 		
-		pipelineElementHeader.style.color = "#A091BD";
 		pipeImage.src = "img/pipe2.png";
 		pipelineElement.setAttribute("data-selected", "true");
 	});
@@ -78,7 +79,7 @@ function createPipelineElement(name, img="img/pipe.png") {
 }
 
 function showDefaultPipeline() {
-	createPipelineElement("COMMIT", "img/pipe2.png");
+	createPipelineElement("COMMIT", img="img/pipe.png", selected="true");
 	createPipelineElement("BUILD");
 	createPipelineElement("DEPLOY");
 	createPipelineElement("FUZZ");
