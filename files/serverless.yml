@@ -1,0 +1,20 @@
+service: ${}
+
+provider:
+  name: aws
+  runtime: ${}
+  stage: dev
+  region: ${}
+
+package:
+  exclude:
+    - README.md
+    - .gitignore
+
+functions:
+#  sample_functions:
+#    handler: sample_functions.handler
+#    events:
+#      - http:
+#          path: /
+#          method: get

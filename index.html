@@ -2,23 +2,297 @@
 
 <html>
 	<head>
-		<title>Unicorn Saddle</title>
+		<title>Unicorn Wiz</title>
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 
 	<body>
 		<div id="header">
-			<h1 class="heading">Unicorn Saddle</h1>
-			<button id="export_button" onclick="export_pipeline()">Export</button>
+			<h1 class="heading">Unicorn Wiz</h1>
+			<button id="next_button" class="main_button" onclick="unicorn_to_pipeline()">Next</button>
+			<button id="export_button" class="main_button" onclick="pipeline_to_summary()" style="display: none">Export</button>
+			<button id="download_button" class="main_button" onclick="download()" style="display: none">Download</button>
+			<button id="back_button" class="main_button" style="display: none">Back</button>
 		</div>
 
-		<div id="pipeline">
+		<div id="unicorn-options-wrapper">
+
+			<div id="unicorn-options">
+
+				<h1>Unicorn Options</h1>
+
+				<table>
+					<tr>
+						<td>Dev Accoun ID:</td>
+						<td><input id="dev_account_id" type="text"></td>
+					<tr>
+					<tr>
+						<td>Prod Accoun ID:</td>
+						<td><input id="prod_account_id" type="text"></td>
+					<tr>
+				</table>
+
+				<h2>Pipeline Deployment Options</h2>
+
+				<table>
+					<tr>
+						<td>Region:</td>
+						<td><input id="region" type="text"></td>
+					<tr>
+					<tr>
+						<td>Deployment Bucket Name:</td>
+						<td><input id="deployment_bucket_name" type="text"></td>
+					<tr>
+					<tr>
+						<td>Staging Bucket Key Prefix:</td>
+						<td><input id="staging_bucket_key_prefix" type="text"></td>
+					<tr>
+					<tr>
+						<td>Fuzzer Deployment Key:</td>
+						<td><input id="fuzzer_deployment_key" type="text"></td>
+					<tr>	
+				</table>
+
+			</div>
+
 		</div>
 
-		<div id="pipeline-options">
+		<div id="pipeline-wrapper" style="display: none">
+
+			<div id="pipeline">
+
+			</div>
+
+			<div id="pipeline-options">
+				<div id="commit_options" class="pipeline-options-container">
+					<h1>Commit Options</h1>
+
+					<table>
+						<tr>
+							<td>App Name:</td>
+							<td><input id="app_name" type="text"></td>
+						<tr>
+						<tr>
+							<td>Branch:</td>
+							<td><input id="branch" type="text"></td>
+						<tr>
+					</table>
+				</div>
+
+				<div id="build_options" class="pipeline-options-container" style="display: none">
+					<h1>Build Options</h1>
+
+					<table>
+						<tr>
+							<td>version:</td>
+							<td><input id="codebuild_version" type="text"></td>
+							<td>
+								Required mapping. Represents the build spec version. We recommend that you use 0.2.
+							</td>
+						</tr>
+					</table>
+
+					<h1>Phases</h1>
+
+					<p>Required sequence. Represents the commands CodeBuild runs during each phase of the build.</p>
+
+					<h2>Install</h2>
+
+					<p>Optional sequence. Represents the commands, if any, that CodeBuild runs during installation. We recommend that you use the install phase only for installing packages in the build environment. For example, you might use this phase to install a code testing framework such as Mocha or RSpec.</p>
+
+					<table>
+						<tr>
+							<td>runtime-versions: </td>
+							<td><textarea id="runtime_versions" placeholder="runtime: version"></textarea></td>
+							<td>Required if using the Ubuntu standard image 2.0 or later, or the Amazon Linux (AL2) standard image 1.0 or later. A runtime version is not supported with a custom image or the Ubuntu standard image 1.0. If specified, at least one runtime must be included in this section. Specify a runtime using a major version only, such as "java: openjdk11" or "ruby: 2.6." You can specify the runtime using a number or an environment variable. For example, if you use the Amazon Linux 2 standard image 1.0, then the following specifies that version 8 of Java, version 29 of Android, and a version contained in an environment variable of Ruby is installed. For more information, see Docker Images Provided by CodeBuild.</td>
+						</tr>
+					</table>
+
+					<h2>Pre Build</h2>
+
+					<p>Optional sequence. Represents the commands, if any, that CodeBuild runs before the build. For example, you might use this phase to sign in to Amazon ECR, or you might install npm dependencies.</p>
+
+					<table>
+						<tr>
+							<td>commands: </td>
+							<td><textarea id="pre_build_commands" placeholder="- command
+
+- |
+  multiline
+  command"></textarea>
+
+							</td>
+							<td>Required sequence if pre_build is specified. Contains a sequence of scalars, where each scalar represents a single command that CodeBuild runs before the build. CodeBuild runs each command, one at a time, in the order listed, from beginning to end.</td>
+						</tr>
+					</table>
+
+					<h2>Build</h2>
+
+					<p>Optional sequence. Represents the commands, if any, that CodeBuild runs during the build. For example, you might use this phase to run Mocha, RSpec, or sbt.</p>
+
+					<table>
+						<tr>
+							<td>commands: </td>
+							<td><textarea id="build_commands" placeholder="- command
+
+- |
+  multiline
+  command"></textarea>
+							</td>
+							<td>Required if build is specified. Contains a sequence of scalars, where each scalar represents a single command that CodeBuild runs during the build. CodeBuild runs each command, one at a time, in the order listed, from beginning to end.</td>
+						</tr>
+					</table>
+					<h2>Post Build</h2>
+
+					<p>Optional sequence. Represents the commands, if any, that CodeBuild runs after the build. For example, you might use Maven to package the build artifacts into a JAR or WAR file, or you might push a Docker image into Amazon ECR. Then you might send a build notification through Amazon SNS.</p>
+
+					<table>
+						<tr>
+							<td>commands: </td>
+							<td>
+								<textarea id="post_build_commands" placeholder="- command
+
+- |
+  multiline
+  command"></textarea>
+
+							</td>
+							<td>Required if post_build is specified. Contains a sequence of scalars, where each scalar represents a single command that CodeBuild runs after the build. CodeBuild runs each command, one at a time, in the order listed, from beginning to end.</td>
+						</tr>
+					</table>
+
+					<h1>Artifacts</h1>
+
+					<p>Optional sequence. Represents information about where CodeBuild can find the build output and how CodeBuild prepares it for uploading to the Amazon S3 output bucket. This sequence is not required if, for example, you are building and pushing a Docker image to Amazon ECR, or you are running unit tests on your source code, but not building it.</p>
+
+					<table>
+						<tr>
+							<td>artifacts: </td>
+							<td><textarea id="artifacts"></textarea></td>
+							<td>Required sequence. Represents the locations that contain the build output artifacts in the build environment. Contains a sequence of scalars, with each scalar representing a separate location where CodeBuild can find build output artifacts, relative to the original build location or, if set, the base directory.</td>
+						</tr>
+					</table>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id="summary-wrapper" style="display: none">
+
+			<div id="summary">
+
+				<h1>Unicorn Options</h1>
+
+				<table>
+					<tr>
+						<td>Dev Accoun ID:</td>
+						<td id="summary_dev_account_id"></td>
+					<tr>
+					<tr>
+						<td>Prod Accoun ID:</td>
+						<td id="summary_prod_account_id"></td>
+					<tr>
+				</table>
+
+				<h2>Pipeline Deployment Options</h2>
+
+				<table>
+					<tr>
+						<td>Region:</td>
+						<td id="summary_region"></td>
+					<tr>
+					<tr>
+						<td>Deployment Bucket Name:</td>
+						<td id="summary_deployment_bucket_name"></td>
+					<tr>
+					<tr>
+						<td>Staging Bucket Key Prefix:</td>
+						<td id="summary_staging_bucket_key_prefix"></td>
+					<tr>
+					<tr>
+						<td>Fuzzer Deployment Key:</td>
+						<td id="summary_fuzzer_deployment_key"></td>
+					<tr>	
+				</table>
+
+				<h1>Commit Options</h1>
+
+				<table>
+					<tr>
+						<td>App Name:</td>
+						<td id="summary_app_name"></td>
+					<tr>
+					<tr>
+						<td>Branch:</td>
+						<td id="summary_branch"></td>
+					<tr>
+				</table>
+
+				<h1>Build Options</h1>
+
+				<table>
+					<tr>
+						<td>version:</td>
+						<td id="summary_codebuild_version"></td>
+					</tr>
+				</table>
+
+				<h1>Phases</h1>
+
+				<h2>Install</h2>
+
+				<table>
+					<tr>
+						<td>runtime-versions: </td>
+						<td id="summary_runtime_versions"></td>
+					</tr>
+				</table>
+
+				<h2>Pre Build</h2>
+
+				<table>
+					<tr>
+						<td>commands: </td>
+						<td id="summary_pre_build_commands"></td>
+					</tr>
+				</table>
+
+				<h2>Build</h2>
+
+				<table>
+					<tr>
+						<td>commands: </td>
+						<td id="summary_build_commands"></td>
+					</tr>
+				</table>
+
+				<h2>Post Build</h2>
+
+				<table>
+					<tr>
+						<td>commands: </td>
+						<td id="summary_post_build_commands"></td>
+					</tr>
+				</table>
+
+				<h1>Artifacts</h1>
+
+				<table>
+					<tr>
+						<td>artifacts: </td>
+						<td id="summary_artifacts"></td>
+					</tr>
+				</table>
+
+			</div>
 
 		</div>
 
 		<script src="js/index.js"></script>
+		<script src="js/project_functions.js"></script>
+		<script src="js/jszip.min.js"></script>
+		<script src="js/FileSaver.min.js"></script>
 	</body>
 </html>

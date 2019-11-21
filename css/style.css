@@ -80,8 +80,7 @@ textarea {
 	height: 100px;
 }
 
-#export_button {
-	height: 100%;
+.main_button {
 	width: 200px;
 	float: right;
 	font-size: 24px;
@@ -98,5 +97,22 @@ td {
 }
 
 .pipeline-options-container {
-	margin: 10px;
+	margin: 20px;
+}
+
+#unicorn-options-wrapper {
+	width: 100%;
+	float: left;
+}
+
+#unicorn-options {
+	margin: 20px;
+}
+
+#summary-wrapper {
+	float: left;
+}
+
+#summary {
+	margin: 20px;
 }
