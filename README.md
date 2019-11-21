@@ -1,2 +1,2 @@
-# Unicorn-Wiz
-Wizard for deploying the unicorn pipeline
+# Saddle
+Launch Wizard for deploying the unicorn pipeline
