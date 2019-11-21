@@ -1,3 +1,7 @@
+var app_name = "";
+var api_runtime = "";
+var region = "";
+
 function getBuildSpecString() {
 	var codebuild_version   = document.getElementById("codebuild_version").value;
 	var runtime_versions    = document.getElementById("runtime_versions").value.split("\n");
@@ -23,8 +27,8 @@ function getBuildSpecString() {
 	buildspec += "    commands:\n";
 
 	buildspec += "      - curl -L https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 -o /bin/yq\n";
-    buildspec += "      - chmod +x /bin/yq\n";
-    buildspec += "      - npm install -g serverless\n";
+  buildspec += "      - chmod +x /bin/yq\n";
+  buildspec += "      - npm install -g serverless\n";
 
 	for (var i = 0; i < pre_build_commands.length; i++) {
 		buildspec += "      " + pre_build_commands[i] + "\n";
@@ -83,28 +87,23 @@ function getBuildSpecString() {
 	return buildspec;
 }
 
-function test() {
-  fetch('./files/serverless.yml', {mode: 'no-cors'})
-	.then(response => response.text())
-	.then(data=> console.log(data))
-	.catch(error => console.error(error));
-}
-
 function download() {
+	app_name    = document.getElementById("app_name").value;
+	api_runtime = "python3.7"//document.getElementById("app_name").value;
+	region      = document.getElementById("region").value;
+
+	var serverless_yml = gen_serverless_yaml();
 	var buildspec = getBuildSpecString();
 
 	var zip = new JSZip();
 
-	var pipeline_folder = zip.folder("pipeline");
-	var api_folder      = zip.folder("api");
+	zip.file("serverless.yml", serverless_yml);
+	zip.file("buildspec.build.yaml", buildspec);
 
-	api_folder.file("buildspec.build.yaml", buildspec);
-
-	
 	//img.file("smile.gif", imgData, {base64: true});
 
 	zip.generateAsync({type:"blob"})
 	.then(function(content) {
-	    saveAs(content, "unicorn.zip");
+	    saveAs(content, "unicorn-api.zip");
 	});
 }

@@ -174,6 +174,11 @@ function generateSummary() {
 	document.getElementById("summary_build_commands").innerText            = document.getElementById("build_commands").value;
 	document.getElementById("summary_post_build_commands").innerText       = document.getElementById("post_build_commands").value;
 	document.getElementById("summary_artifacts").innerText                 = document.getElementById("artifacts").value;
+
+	document.getElementById("summary_deployment_file_name").innerText      = document.getElementById("deployment_file_name").value;
+	document.getElementById("summary_changeset_name").innerText            = document.getElementById("changeset_name").value;
+	document.getElementById("summary_cfn_output").innerText                = document.getElementById("cfn_output").value;
+	document.getElementById("summary_fuzzer_timeout").innerText            = document.getElementById("fuzzer_timeout").value;
 }
 
 // function to download the project

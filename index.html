@@ -2,16 +2,16 @@
 
 <html>
 	<head>
-		<title>Unicorn Wiz</title>
+		<title>Unicorn Stable</title>
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 
 	<body>
 		<div id="header">
-			<h1 class="heading">Unicorn Wiz</h1>
+			<h1 class="heading">Unicorn Stable</h1>
 			<button id="next_button" class="main_button" onclick="unicorn_to_pipeline()">Next</button>
-			<button id="export_button" class="main_button" onclick="pipeline_to_summary()" style="display: none">Export</button>
-			<button id="download_button" class="main_button" onclick="download()" style="display: none">Download</button>
+			<button id="export_button" class="main_button" onclick="pipeline_to_summary()" style="display: none">View Summary</button>
+			<button id="download_button" class="main_button" onclick="download()" style="display: none">Export</button>
 			<button id="back_button" class="main_button" style="display: none">Back</button>
 		</div>
 
@@ -19,7 +19,7 @@
 
 			<div id="unicorn-options">
 
-				<h1>Unicorn Options</h1>
+				<h1>Pipeline Options</h1>
 
 				<table>
 					<tr>
@@ -71,10 +71,12 @@
 						<tr>
 							<td>App Name:</td>
 							<td><input id="app_name" type="text"></td>
+							<td>The name of your API</td>
 						<tr>
 						<tr>
 							<td>Branch:</td>
 							<td><input id="branch" type="text"></td>
+							<td>Feature branch</td>
 						<tr>
 					</table>
 				</div>
@@ -167,9 +169,47 @@
 
 					<table>
 						<tr>
-							<td>artifacts: </td>
+							<td>artifacts:</td>
 							<td><textarea id="artifacts"></textarea></td>
 							<td>Required sequence. Represents the locations that contain the build output artifacts in the build environment. Contains a sequence of scalars, with each scalar representing a separate location where CodeBuild can find build output artifacts, relative to the original build location or, if set, the base directory.</td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div id="deploy_options" class="pipeline-options-container" style="display: none">
+					
+					<h1>Deploy Options</h1>
+
+					<table>
+						<tr>
+							<td>Deployment File Name:</td>
+							<td><input id="deployment_file_name"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Changeset Name:</td>
+							<td><input id="changeset_name"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>CFN Output Containing API Gateway URL:</td>
+							<td><input id="cfn_output"></td>
+							<td></td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div id="fuzz_options" class="pipeline-options-container" style="display: none">
+					
+					<h1>Fuzz Options</h1>
+
+					<table>
+						<tr>
+							<td>Timeout:</td>
+							<td><input id="fuzzer_timeout"></td>
+							<td></td>
 						</tr>
 					</table>
 
@@ -183,7 +223,7 @@
 
 			<div id="summary">
 
-				<h1>Unicorn Options</h1>
+				<h1>Pipeline Options</h1>
 
 				<table>
 					<tr>
@@ -286,12 +326,41 @@
 					</tr>
 				</table>
 
+				<h1>Deploy Options</h1>
+
+				<table>
+					<tr>
+						<td>Deployment File Name:</td>
+						<td id="summary_deployment_file_name"></td>
+					<tr>
+					<tr>
+						<td>Changeset Name:</td>
+						<td id="summary_changeset_name"></td>
+					<tr>
+					<tr>
+						<td>CFN Output Containing API Gateway URL:</td>
+						<td id="summary_cfn_output"></td>
+					<tr>
+				</table>
+
+				<h1>Fuzz Options</h1>
+
+				<table>
+						<tr>
+							<td>Timeout:</td>
+							<td id="summary_fuzzer_timeout"></td>
+							<td></td>
+						</tr>
+					</table>
+
 			</div>
 
 		</div>
 
 		<script src="js/index.js"></script>
 		<script src="js/project_functions.js"></script>
+		<script src="js/serverless_string.js"></script>
+
 		<script src="js/jszip.min.js"></script>
 		<script src="js/FileSaver.min.js"></script>
 	</body>
