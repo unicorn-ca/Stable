@@ -58,7 +58,7 @@ $(document).ready(function(){
 
 function export_project() {
 	window.app_name    = document.getElementById("app_name").value;
-	window.api_runtime = document.getElementById("app_name").value;
+	window.api_runtime = document.getElementById("api_runtime").value;
 	window.region      = document.getElementById("region").value;
 
 	var serverless_yml = gen_serverless_yaml();
@@ -71,7 +71,7 @@ function export_project() {
 
 	zip.generateAsync({type:"blob"})
 	.then(function(content) {
-	    saveAs(content, "unicorn-api.zip");
+	    saveAs(content, app_name + ".zip");
 	});
 
 	var pipeline_json = build_pipeline_json();
