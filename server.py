@@ -43,12 +43,12 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             with open('../../stack/params.yaml', 'r') as file:
                 params = file.readlines()
             
-            params[2] = f"DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[3] = f"ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
-            params[4] = f"appName: {post_data['appName']}\n"
-            params[6] = f"QSS3BucketName: {post_data['QSS3BucketName']}\n"
-            params[8] = f"QSS3BucketRegion: {post_data['region']}\n"
-            params[11] = f"StagingBucket: {post_data['StagingBucket']}\n"
+            params[2] = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
+            params[3] = f"    ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
+            params[4] = f"    appName: {post_data['appName']}\n"
+            params[6] = f"    QSS3BucketName: {post_data['QSS3BucketName']}\n"
+            params[8] = f"    QSS3BucketRegion: {post_data['region']}\n"
+            params[11] = f"    StagingBucket: {post_data['StagingBucket']}\n"
 
             with open('../../stack/params.yaml', 'w') as file:
                 file.writelines(params)
