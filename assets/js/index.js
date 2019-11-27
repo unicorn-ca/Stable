@@ -80,6 +80,7 @@ function export_project() {
 }
 
 function generateSummary() {
+	document.getElementById("summary_central_account_id").innerText        = document.getElementById("central_account_id").value;
 	document.getElementById("summary_dev_account_id").innerText            = document.getElementById("dev_account_id").value;
 	document.getElementById("summary_prod_account_id").innerText           = document.getElementById("prod_account_id").value;
 	document.getElementById("summary_region").innerText                    = document.getElementById("region").value;
@@ -89,7 +90,8 @@ function generateSummary() {
 
     document.getElementById("summary_api_runtime").innerText               = document.getElementById("api_runtime").value;
 	document.getElementById("summary_app_name").innerText                  = document.getElementById("app_name").value;
-	document.getElementById("summary_branch").innerText                    = document.getElementById("branch").value;
+    document.getElementById("summary_branch").innerText                    = document.getElementById("branch").value;
+    document.getElementById("summary_codecommit_group_name").innerText     = document.getElementById("codecommit_group_name").value;
 	document.getElementById("summary_codebuild_version").innerText         = document.getElementById("codebuild_version").value;
 	document.getElementById("summary_runtime_versions").innerText          = document.getElementById("runtime_versions").value;
 	document.getElementById("summary_pre_build_commands").innerText        = document.getElementById("pre_build_commands").value;
