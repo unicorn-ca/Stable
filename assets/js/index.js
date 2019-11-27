@@ -80,6 +80,7 @@ function export_project() {
 }
 
 function generateSummary() {
+	document.getElementById("summary_central_account_id").innerText        = document.getElementById("central_account_id").value;
 	document.getElementById("summary_dev_account_id").innerText            = document.getElementById("dev_account_id").value;
 	document.getElementById("summary_prod_account_id").innerText           = document.getElementById("prod_account_id").value;
 	document.getElementById("summary_region").innerText                    = document.getElementById("region").value;
