@@ -20,10 +20,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'text/yaml')
             self.end_headers()
             self.wfile.write(open(self.path[1:], 'rb').read())
-        elif self.path.split('/')[1] in ["css", "js", "img"]:
+        elif self.path.split('/')[1] in ["assets", "lib"]:
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(open(self.path[1:], 'rb').read())
+            self.wfile.write(open(self.path[1:].split('?')[0], 'rb').read())
         else:
             self.send_response(404)
             self.end_headers()
