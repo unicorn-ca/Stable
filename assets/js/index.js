@@ -12,6 +12,14 @@ $(document).ready(function(){
             finish: '<i class="icon-download"></i>',
             next: "Next",
             previous: "Back"
+        },
+        onStepChanged: function(event, currentIndex){
+            if(currentIndex == 2){
+                generateSummary();
+            }
+        },
+        onFinished: function(event, currentIndex){
+            export_pipeline();  
         }
     });
 

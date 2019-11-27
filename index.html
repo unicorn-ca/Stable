@@ -236,8 +236,169 @@
 
           <div class="form-content">
             <p>Summary</p>
+            <p>Pipeline Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Dev Account ID</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_dev_account_id" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                  <p class="form-text">Prod Account ID</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_prod_account_id" class="form-text"></p>
+              </div>
+            </div>
+            <br/>
 
+            <p>Deployment Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Region</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_region" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Deploy Bucket Name</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_deployment_bucket_name" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Staging Bucket Key Prefix</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_staging_bucket_key_prefix" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text " title="Key in the staging bucket to the fuzzer deployment bundle">Fuzzer Deployment Key</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_fuzzer_deployment_key" placeholder="Fuzzer Deployment Key" class="form-text"></p>
+              </div>
+            </div>
+            <br/>
 
+            <p>Commit Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">App Name</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_app_name" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                  <p class="form-text">Branch</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_branch" class="form-text"></p>
+              </div>
+            </div>
+            <br/>
+
+            <p>Build Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Version</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_codebuild_version" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Runtime Versions</p>
+              </div>
+              <div class="form-holder">
+                  <p id="summary_runtime_versions" class="form-text"></p>
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">PreBuild Commands</p>
+              </div>
+              <div class="form-holder">
+                  <p id="summary_pre_build_commands" class="form-text"></p>
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Build Commands</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_build_commands" class="form-text"></p>
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Post Build Commands</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_post_build_commands" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Artifacts</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_artifacts" class="form-text"></p>
+              </div>
+            </div>
+            <br/>
+
+            <p>Deploy Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Deployment File Name</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_deployment_file_name" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                  <p class="form-text">Changeset Name</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_changeset_name" class="form-text"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-holder">
+                  <p class="form-text">CFN Output Containing API Gateway URL</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_cfn_output" class="form-text"></p>
+              </div>
+            </div>
+            <br/>
+
+            <p>Fuzzer Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Timeout</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_fuzzer_timeout" class="form-text"></p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
