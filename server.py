@@ -99,6 +99,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b'{success: true}') # Send something so fetch doesnt produce an error
 
+            exit()
+
 def start_server():
     httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
     httpd.serve_forever()
