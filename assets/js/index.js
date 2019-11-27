@@ -57,9 +57,9 @@ $(document).ready(function(){
 
 
 function export_project() {
-	app_name    = document.getElementById("app_name").value;
-	api_runtime = document.getElementById("app_name").value;
-	region      = document.getElementById("region").value;
+	window.app_name    = document.getElementById("app_name").value;
+	window.api_runtime = document.getElementById("app_name").value;
+	window.region      = document.getElementById("region").value;
 
 	var serverless_yml = gen_serverless_yaml();
 	var buildspec = getBuildSpecString();
