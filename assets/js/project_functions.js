@@ -87,25 +87,3 @@ function getBuildSpecString() {
 	return buildspec;
 }
 
-function export_project() {
-	app_name    = document.getElementById("app_name").value;
-	api_runtime = document.getElementById("app_name").value;
-	region      = document.getElementById("region").value;
-
-	var serverless_yml = gen_serverless_yaml();
-	var buildspec = getBuildSpecString();
-
-	var zip = new JSZip();
-
-	zip.file("serverless.yml", serverless_yml);
-	zip.file("buildspec.build.yaml", buildspec);
-
-	zip.generateAsync({type:"blob"})
-	.then(function(content) {
-	    saveAs(content, "unicorn-api.zip");
-	});
-
-	var pipeline_json = build_pipeline_json();
-	
-	send_data_to_server(pipeline_json);
-}

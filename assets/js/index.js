@@ -19,7 +19,7 @@ $(document).ready(function(){
             }
         },
         onFinished: function(event, currentIndex){
-            export_pipeline();  
+            export_project();  
         }
     });
 
@@ -56,13 +56,27 @@ $(document).ready(function(){
 })
 
 
-function export_pipeline() {
-	var build_options = document.getElementById("build_options");
+function export_project() {
+	app_name    = document.getElementById("app_name").value;
+	api_runtime = document.getElementById("app_name").value;
+	region      = document.getElementById("region").value;
 
-	build_options.style.display = "none";
+	var serverless_yml = gen_serverless_yaml();
+	var buildspec = getBuildSpecString();
 
-	var buildspec = document.createElement("textarea");
+	var zip = new JSZip();
 
+	zip.file("serverless.yml", serverless_yml);
+	zip.file("buildspec.build.yaml", buildspec);
+
+	zip.generateAsync({type:"blob"})
+	.then(function(content) {
+	    saveAs(content, "unicorn-api.zip");
+	});
+
+	var pipeline_json = build_pipeline_json();
+	
+	send_data_to_server(pipeline_json);
 }
 
 function generateSummary() {
