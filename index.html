@@ -107,6 +107,17 @@
         </div>
 
         <div class="form-content">
+          <p>API Options</p>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="Your desired API runtime">API Runtime</p>
+            </div>
+            <div class="form-holder">
+              <input type="text" id="api_runtime" placeholder="API Runtime" class="form-control">
+            </div>
+          </div>
+          <br/>
+
           <p>Commit Options</p>
           <div class="form-row">
             <div class="form-holder">
@@ -283,10 +294,21 @@
             </div>
             <div class="form-row">
               <div class="form-holder">
-                <p class="form-text " title="Key in the staging bucket to the fuzzer deployment bundle">Fuzzer Deployment Key</p>
+                <p class="form-text">Fuzzer Deployment Key</p>
               </div>
               <div class="form-holder">
                 <p id="summary_fuzzer_deployment_key" placeholder="Fuzzer Deployment Key" class="form-text"></p>
+              </div>
+            </div>
+            <br/>
+
+            <p>API Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">API Runtime</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_api_runtime" class="form-text"></p>
               </div>
             </div>
             <br/>

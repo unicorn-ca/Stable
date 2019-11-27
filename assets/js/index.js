@@ -85,7 +85,9 @@ function generateSummary() {
 	document.getElementById("summary_region").innerText                    = document.getElementById("region").value;
 	document.getElementById("summary_deployment_bucket_name").innerText    = document.getElementById("deployment_bucket_name").value;
 	document.getElementById("summary_staging_bucket_key_prefix").innerText = document.getElementById("staging_bucket_key_prefix").value;
-	document.getElementById("summary_fuzzer_deployment_key").innerText     = document.getElementById("fuzzer_deployment_key").value;
+    document.getElementById("summary_fuzzer_deployment_key").innerText     = document.getElementById("fuzzer_deployment_key").value;
+
+    document.getElementById("summary_api_runtime").innerText               = document.getElementById("api_runtime").value;
 	document.getElementById("summary_app_name").innerText                  = document.getElementById("app_name").value;
 	document.getElementById("summary_branch").innerText                    = document.getElementById("branch").value;
 	document.getElementById("summary_codebuild_version").innerText         = document.getElementById("codebuild_version").value;
