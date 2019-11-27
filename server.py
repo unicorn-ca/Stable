@@ -39,46 +39,55 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
             post_data = json.loads(post_data)
 
-            # Edit child/prod.params.yaml
+            # Edit stack/params.yaml
             with open('../../stack/params.yaml', 'r') as file:
                 params = file.readlines()
             
-            params[2] = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[3] = f"    ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
-            params[4] = f"    appName: {post_data['appName']}\n"
-            params[6] = f"    QSS3BucketName: {post_data['QSS3BucketName']}\n"
-            params[8] = f"    QSS3BucketRegion: {post_data['region']}\n"
+            params[2]  = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
+            params[3]  = f"    ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
+            params[4]  = f"    AppName: {post_data['appName']}\n"
+            params[5]  = f"    BuildImageName: aws/codebuild/standard:2.0\n"
+            params[6]  = f"    QSS3BucketName: {post_data['QSS3BucketName']}\n"
+            params[7]  = f"    QSS3KeyPrefix:  herd/test1\n"
+            params[8]  = f"    QSS3BucketRegion: {post_data['region']}\n"
+            params[9]  = f"    ProdChildAccountRoleName: pipeline-prod-role\n"
+            params[10] = f"    DevChildAccountRoleName: pipeline-dev-role\n"
             params[11] = f"    StagingBucket: {post_data['StagingBucket']}\n"
+            params[12] = f"    FuzzerDeployKey: {post_data['fuzzer_deployment_key']}\n"
 
             with open('../../stack/params.yaml', 'w') as file:
                 file.writelines(params)
 
-            # Edit child/prod.params.yaml
+
+            # Edit child/dev.params.yaml
             with open('../../child/dev.params.yaml', 'r') as file:
                 params = file.readlines()
 
-            params[2] = f"DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[3] = f"ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
+            params[2] = f"    CentralAwsAccountId: {post_data['CentralAwsAccountId']}\n"
+            params[3] = f"    ChildAccountRoleName: pipeline-dev-role\n"
             
             with open('../../child/dev.params.yaml', 'w') as file:
                 file.writelines(params)
+
             
             # Edit child/prod.params.yaml
             with open('../../child/prod.params.yaml', 'r') as file:
                 params = file.readlines()
 
-            params[2] = f"DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[3] = f"ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
+            params[2] = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
+            params[3] = f"    ChildAccountRoleName: pipeline-prod-role\n"
             
             with open('../../child/prod.params.yaml', 'w') as file:
                 file.writelines(params)
+
 
             # Edit predeploy/params.yaml
             with open('../../predeploy/params.yaml', 'r') as file:
                 params = file.readlines()
 
-            params[3] = f"DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[4] = f"ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
+            params[2] = f"    StagingBucketName: {post_data['StagingBucket']}\n"
+            params[3] = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
+            params[4] = f"    ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
             
             with open('../../predeploy/params.yaml', 'w') as file:
                 file.writelines(params)
