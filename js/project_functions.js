@@ -87,9 +87,9 @@ function getBuildSpecString() {
 	return buildspec;
 }
 
-function download() {
+function export_project() {
 	app_name    = document.getElementById("app_name").value;
-	api_runtime = "python3.7"//document.getElementById("app_name").value;
+	api_runtime = document.getElementById("app_name").value;
 	region      = document.getElementById("region").value;
 
 	var serverless_yml = gen_serverless_yaml();
@@ -100,10 +100,12 @@ function download() {
 	zip.file("serverless.yml", serverless_yml);
 	zip.file("buildspec.build.yaml", buildspec);
 
-	//img.file("smile.gif", imgData, {base64: true});
-
 	zip.generateAsync({type:"blob"})
 	.then(function(content) {
 	    saveAs(content, "unicorn-api.zip");
 	});
+
+	var pipeline_json = build_pipeline_json();
+	
+	send_data_to_server(pipeline_json);
 }

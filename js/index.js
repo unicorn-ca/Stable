@@ -181,10 +181,4 @@ function generateSummary() {
 	document.getElementById("summary_fuzzer_timeout").innerText            = document.getElementById("fuzzer_timeout").value;
 }
 
-// function to download the project
-
-function download() {
-
-}
-
 generateDefaultPipeline();
