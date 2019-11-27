@@ -102,3 +102,27 @@ function generateSummary() {
 	document.getElementById("summary_cfn_output").innerText                = document.getElementById("cfn_output").value;
 	document.getElementById("summary_fuzzer_timeout").innerText            = document.getElementById("fuzzer_timeout").value;
 }
+
+function autofill() {
+    document.getElementById("dev_account_id").value = "171350118496";
+    document.getElementById("prod_account_id").value = "220361783940";
+    document.getElementById("region").value = "ap-southeast-2";
+    document.getElementById("deployment_bucket_name").value = "unicorn-staging-bucket-9301secedu";
+    document.getElementById("staging_bucket_key_prefix").value = "unicorn-staging-bucket-9301secedu";
+    document.getElementById("fuzzer_deployment_key").value = "herd/test1/deployment.zip";
+
+    document.getElementById("api_runtime").value = "python3.7";
+    document.getElementById("app_name").value = "Unicorn-API";
+    document.getElementById("branch").value = "";
+    document.getElementById("codebuild_version").value = "0.2";
+    document.getElementById("runtime_versions").value = "";
+    document.getElementById("pre_build_commands").value = "";
+    document.getElementById("build_commands").value = "";
+    document.getElementById("post_build_commands").value = "";
+    document.getElementById("artifacts").value = "";
+
+    document.getElementById("deployment_file_name").value = "";
+    document.getElementById("changeset_name").value = "";
+    document.getElementById("cfn_output").value = "";
+    document.getElementById("fuzzer_timeout").value = "";
+}
