@@ -1,0 +1,66 @@
+// CSS for different media viewports
+
+@media (max-width: 1199px) { 
+	
+}
+@media (max-width: 991px) {
+	.wizard {
+		max-width: 768px;
+	}
+	.image-holder {
+		img {
+			height: 550px;
+			object-fit: cover;
+		}
+	}
+	
+}
+@media (max-width: 767px) {
+	.inner {
+		display: block;
+		box-shadow: none;
+	    -webkit-box-shadow: none;
+	    -moz-box-shadow: none;
+	    -ms-box-shadow: none;
+	    -o-box-shadow: none;
+	}
+	.image-holder {
+		width: 100%;
+		img {
+			width: 100%;
+		}
+	}
+	.form-content {
+		width: 100%;
+		padding: 50px 20px 30px;
+	}
+	.form-title {
+		width: 100%;
+		padding: 50px 20px 30px;
+	}
+	.form-row {
+		display: block;
+		.form-holder, .select {
+			width: 100%;
+			margin-right: 0;
+			margin-bottom: 18px;
+		}
+	}
+	.wrapper {
+		height: 1201px;
+		background: none;
+	}
+	.wizard {
+		height: 100%;
+		& > .steps {
+			right: 50%;
+			top: 52%;
+	    	transform: translateX(50%);
+		}
+	}
+	.actions {
+		right: 50%;
+		transform: translateX(50%);
+		bottom: 3%;
+	}
+}
