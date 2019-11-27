@@ -106,6 +106,7 @@ function generateSummary() {
 }
 
 function autofill() {
+    document.getElementById("central_account_id").value = "833035787772";
     document.getElementById("dev_account_id").value = "171350118496";
     document.getElementById("prod_account_id").value = "220361783940";
     document.getElementById("region").value = "ap-southeast-2";
@@ -118,9 +119,9 @@ function autofill() {
     document.getElementById("branch").value = "";
     document.getElementById("codebuild_version").value = "0.2";
     document.getElementById("runtime_versions").value = "";
-    document.getElementById("pre_build_commands").value = "";
-    document.getElementById("build_commands").value = "";
-    document.getElementById("post_build_commands").value = "";
+    document.getElementById("pre_build_commands").value = "- echo 'pre build'";
+    document.getElementById("build_commands").value = "- echo 'build'";
+    document.getElementById("post_build_commands").value = "- echo 'post build'";
     document.getElementById("artifacts").value = "";
 
     document.getElementById("deployment_file_name").value = "";
