@@ -58,7 +58,7 @@ $(document).ready(function(){
 
 function export_project() {
 	window.app_name    = document.getElementById("app_name").value;
-	window.api_runtime = document.getElementById("app_name").value;
+	window.api_runtime = document.getElementById("api_runtime").value;
 	window.region      = document.getElementById("region").value;
 
 	var serverless_yml = gen_serverless_yaml();
@@ -71,7 +71,7 @@ function export_project() {
 
 	zip.generateAsync({type:"blob"})
 	.then(function(content) {
-	    saveAs(content, "unicorn-api.zip");
+	    saveAs(content, app_name + ".zip");
 	});
 
 	var pipeline_json = build_pipeline_json();
@@ -80,6 +80,7 @@ function export_project() {
 }
 
 function generateSummary() {
+	document.getElementById("summary_central_account_id").innerText        = document.getElementById("central_account_id").value;
 	document.getElementById("summary_dev_account_id").innerText            = document.getElementById("dev_account_id").value;
 	document.getElementById("summary_prod_account_id").innerText           = document.getElementById("prod_account_id").value;
 	document.getElementById("summary_region").innerText                    = document.getElementById("region").value;
@@ -105,6 +106,7 @@ function generateSummary() {
 }
 
 function autofill() {
+    document.getElementById("central_account_id").value = "833035787772";
     document.getElementById("dev_account_id").value = "171350118496";
     document.getElementById("prod_account_id").value = "220361783940";
     document.getElementById("region").value = "ap-southeast-2";
@@ -117,9 +119,9 @@ function autofill() {
     document.getElementById("branch").value = "";
     document.getElementById("codebuild_version").value = "0.2";
     document.getElementById("runtime_versions").value = "";
-    document.getElementById("pre_build_commands").value = "";
-    document.getElementById("build_commands").value = "";
-    document.getElementById("post_build_commands").value = "";
+    document.getElementById("pre_build_commands").value = "- echo 'pre build'";
+    document.getElementById("build_commands").value = "- echo 'build'";
+    document.getElementById("post_build_commands").value = "- echo 'post build'";
     document.getElementById("artifacts").value = "";
 
     document.getElementById("deployment_file_name").value = "";

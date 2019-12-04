@@ -42,7 +42,15 @@
           <h3>Stable</h3>
         </div>
 				<div class="form-content">
-					<p>Pipeline Options</p>
+          <p>Pipeline Options</p>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="AWS account ID for the central account">Central Account ID</p>
+            </div>
+            <div class="form-holder">
+              <input type="text" id="central_account_id" placeholder="Central Account ID" class="form-control">
+            </div>
+          </div>
           <div class="form-row">
             <div class="form-holder">
               <p class="form-text tooltip" title="AWS account ID for development account">Dev Account ID</p>
@@ -257,6 +265,14 @@
           <div class="form-content">
             <p>Summary</p>
             <p>Pipeline Options</p>
+            <div class="form-row">
+              <div class="form-holder">
+                <p class="form-text">Central Account ID</p>
+              </div>
+              <div class="form-holder">
+                <p id="summary_central_account_id" class="form-text"></p>
+              </div>
+            </div>
             <div class="form-row">
               <div class="form-holder">
                 <p class="form-text">Dev Account ID</p>
