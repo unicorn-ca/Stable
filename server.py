@@ -145,7 +145,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         Stack Options:
             stack/params.yaml - params.DevAwsAccountId      : DevAwsAccountId
                                 params.ProdAwsAccountId     : ProdAwsAccountId
-                                params.appName              : appName
+                                params.AppName              : appName
                                 params.QSS3BucketName       : StagingBucket
                                 params.QSS3KeyPrefix        : staging_bucket_key_prefix
                                 params.StagingBucket        : StagingBucket
@@ -163,7 +163,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         with self.configure_load('stack/params.yaml') as config:
             config['params']['DevAwsAccountId']  = data['DevAwsAccountId']
             config['params']['ProdAwsAccountId'] = data['ProdAwsAccountId']
-            config['params']['appName']          = data['appName']
+            config['params']['AppName']          = data['appName']
             if len(data['staging_bucket_key_prefix']) > 0:
                 config['params']['QSS3KeyPrefix']    = data['staging_bucket_key_prefix']
                 config['params']['FuzzerDeployKey']  = f"{data['staging_bucket_key_prefix']}/deployment.zip"
