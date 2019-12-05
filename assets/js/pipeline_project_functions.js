@@ -7,7 +7,7 @@ function build_pipeline_json() {
 		QSS3BucketName:            document.getElementById("deployment_bucket_name").value,
 		staging_bucket_key_prefix: document.getElementById("staging_bucket_key_prefix").value,
 		StagingBucket:             document.getElementById('deployment_bucket_name').value,
-		fuzzer_deployment_key:     document.getElementById("fuzzer_deployment_key").value,
+		//fuzzer_deployment_key:     document.getElementById("fuzzer_deployment_key").value,
 		appName:                   document.getElementById("app_name").value,
 		branch:                    document.getElementById("branch").value,
 	    codebuild_version:         document.getElementById("codebuild_version").value,

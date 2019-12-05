@@ -86,7 +86,7 @@ function generateSummary() {
 	document.getElementById("summary_region").innerText                    = document.getElementById("region").value;
 	document.getElementById("summary_deployment_bucket_name").innerText    = document.getElementById("deployment_bucket_name").value;
 	document.getElementById("summary_staging_bucket_key_prefix").innerText = document.getElementById("staging_bucket_key_prefix").value;
-    document.getElementById("summary_fuzzer_deployment_key").innerText     = document.getElementById("fuzzer_deployment_key").value;
+    //document.getElementById("summary_fuzzer_deployment_key").innerText     = document.getElementById("fuzzer_deployment_key").value;
 
     document.getElementById("summary_api_runtime").innerText               = document.getElementById("api_runtime").value;
 	document.getElementById("summary_app_name").innerText                  = document.getElementById("app_name").value;
@@ -112,7 +112,7 @@ function autofill() {
     document.getElementById("region").value = "ap-southeast-2";
     document.getElementById("deployment_bucket_name").value = "unicorn-staging-bucket-9301secedu";
     document.getElementById("staging_bucket_key_prefix").value = "unicorn-staging-bucket-9301secedu";
-    document.getElementById("fuzzer_deployment_key").value = "herd/test1/deployment.zip";
+    //document.getElementById("fuzzer_deployment_key").value = "herd/test1/deployment.zip";
 
     document.getElementById("api_runtime").value = "python3.7";
     document.getElementById("app_name").value = "Unicorn-API";
