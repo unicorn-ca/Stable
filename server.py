@@ -111,7 +111,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                                    .stack_name                               : [dev|prod]_stack_name
                                    .authentication.profile                   : [dev|prod]_profile
                                    .sync.bucket                              : StagingBucket
-                                   .sync.staging_bucket_key_prefix                            : staging_bucket_key_prefix
+                                   .sync.base_key                            : staging_bucket_key_prefix
         Stack Options:
             child/dev.params.yaml  - params.CentralAwsAccountId : CentralAwsAccountId
             child/prod.params.yaml - params.CentralAwsAccountId : CentralAwsAccountId
@@ -124,7 +124,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 if len(data['StagingBucket']) > 0:
                     config['deployments'][i]['sync']['bucket']        = data['StagingBucket']
                 if len(data['staging_bucket_key_prefix']) > 0:
-                    config['deployments'][i]['sync']['staging_bucket_key_prefix']      = data['staging_bucket_key_prefix']
+                    config['deployments'][i]['sync']['base_key']      = data['staging_bucket_key_prefix']
 
         for it in ('dev', 'prod'):
             with self.configure_load(f'child/{it}.params.yaml') as config:
@@ -141,7 +141,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                                    .stack_name                   : master_stack_name
                                    .authentication.profile       : master_profile
                                    .sync.bucket                  : StagingBucket
-                                   .sync.staging_bucket_key_prefix                : staging_bucket_key_prefix
+                                   .sync.base_key                : staging_bucket_key_prefix
         Stack Options:
             stack/params.yaml - params.DevAwsAccountId      : DevAwsAccountId
                                 params.ProdAwsAccountId     : ProdAwsAccountId
@@ -158,7 +158,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             if len(data['StagingBucket']) > 0:
                 config['deployments'][2]['sync']['bucket']            = data['StagingBucket']
             if len(data['staging_bucket_key_prefix']) > 0:
-                config['deployments'][2]['sync']['staging_bucket_key_prefix']          = data['staging_bucket_key_prefix']
+                config['deployments'][2]['sync']['base_key']          = data['staging_bucket_key_prefix']
 
         with self.configure_load('stack/params.yaml') as config:
             config['params']['DevAwsAccountId']  = data['DevAwsAccountId']
