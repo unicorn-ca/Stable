@@ -41,7 +41,7 @@
         <div class="form-header">
           <h3>Stable</h3>
         </div>
-				<div class="form-content">
+        <div class="form-content">
           <p>Pipeline Options</p>
           <div class="form-row">
             <div class="form-holder">
@@ -67,16 +67,19 @@
               <input type="text" id="prod_account_id" placeholder="Prod Account ID" class="form-control">
             </div>
           </div>
-					<br/>
-					<p>Deployment Options</p>
-					<div class="form-row">
-					  <div class="form-holder">
-			  			<p class="form-text tooltip" title="The region you are deploying to">Region</p>
-						</div>
-						<div class="form-holder">
-							<input type="text" id="region" placeholder="Region" class="form-control">
-						</div>
-					</div>
+          <br/>
+          <p>
+          Deployment Options
+          <p style="color: #bbb; font-size: 0.5em;">These options cover how the pipeline itself should be installed.</p>
+          </p>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="The region you are deploying to">Region</p>
+              </div>
+              <div class="form-holder">
+                  <input type="text" id="region" placeholder="Region" class="form-control">
+              </div>
+          </div>
           <div class="form-row">
             <div class="form-holder">
               <p class="form-text tooltip" title="S3 deployment bucket name">Deploy Bucket Name</p>
@@ -95,13 +98,57 @@
           </div>
           <div class="form-row">
             <div class="form-holder">
+              <p class="form-text tooltip" title="Name of the stack that should be created during the installation step">Install Stack Name</p>
+            </div>
+            <div class="form-holder">
+              <input type="text" id="predeploy_stack_name" placeholder="Install Stack Name" class="form-control">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="Name of the final pipeline stack that should be created">Pipeline Stack Name</p>
+            </div>
+            <div class="form-holder">
+              <input type="text" id="master_stack_name" placeholder="Pipeline Stack Name" class="form-control">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-holder">
               <p class="form-text tooltip" title="Key in the staging bucket to the fuzzer deployment bundle">Fuzzer Deployment Key</p>
             </div>
             <div class="form-holder">
               <input type="text" id="fuzzer_deployment_key" placeholder="Fuzzer Deployment Key" class="form-control">
             </div>
           </div>
-				</div>
+          <p>
+          Authentication Options
+          <p style="color: #bbb; font-size: 0.5em;">We currently only support AWS profiles through the wizard. If you wish to deploy using STS tokens or raw access keys please utilize herd directly.</p>
+          </p>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="aws-cli profile for the dev account">Dev AWS-CLI Profile</p>
+              </div>
+              <div class="form-holder">
+                  <input type="text" id="dev_profile" placeholder="Dev Profile" class="form-control">
+              </div>
+          </div>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="aws-cli profile for the production account">Production AWS-CLI Profile</p>
+              </div>
+              <div class="form-holder">
+                  <input type="text" id="prod_profile" placeholder="Production Profile" class="form-control">
+              </div>
+          </div>
+          <div class="form-row">
+            <div class="form-holder">
+              <p class="form-text tooltip" title="aws-cli profile for the master account">Master AWS-CLI Profile</p>
+              </div>
+              <div class="form-holder">
+                  <input type="text" id="master_profile" placeholder="Master Profile" class="form-control">
+              </div>
+          </div>
+        </div>
       </section>
 
       <!-- SECTION 2 - Build Options -->
@@ -234,6 +281,24 @@
             </div>
             <div class="form-holder">
               <input type="text" id="cfn_output" placeholder="CFN Output Containing API Gateway URL" class="form-control">
+            </div>
+          </div>
+          <br/>
+          <div class="form-row">
+            <div class="form-holder">
+                <p class="form-text tooltip" title="CFN Stack name for production deployment">Production Stack Name</p>
+            </div>
+            <div class="form-holder">
+              <input type="text" id="prod_stack_name" placeholder="Production Stack Name" class="form-control">
+            </div>
+          </div>
+          <br/>
+          <div class="form-row">
+            <div class="form-holder">
+                <p class="form-text tooltip" title="CFN Stack name for dev deployment">Dev Stack Name</p>
+            </div>
+            <div class="form-holder">
+              <input type="text" id="dev_stack_name" placeholder="Dev Stack Name" class="form-control">
             </div>
           </div>
           <br/>
