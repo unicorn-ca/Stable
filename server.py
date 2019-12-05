@@ -5,6 +5,7 @@ from multiprocessing import Process
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 import mimetypes
+import yaml
 
 # Predeploy
 # Deploy
@@ -18,14 +19,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/':
-            self.http_head(200, {'Content-Type', 'text/html'})
+            self.http_head(200, {'Content-Type': 'text/html'})
             self.wfile.write(open('index.html', 'rb').read())
         elif os.path.basename(self.path) in ['full-stack.template.yaml']:
-            self.http_head(200, {'Content-Type', 'text/yaml'})
+            self.http_head(200, {'Content-Type': 'text/yaml'})
             self.wfile.write(open(self.path[1:], 'rb').read())
         elif self.path.split('/')[1] in ["assets", "lib"]:
             file_path = self.path[1:].split('?')[0]
-            self.http_head(200, {'Content-Type', mimetypes.guess_type(file_path)[0]})
+            self.http_head(200, {'Content-Type': mimetypes.guess_type(file_path)[0]})
             self.wfile.write(open(self.path[1:].split('?')[0], 'rb').read())
         else:
             self.http_head(404)
@@ -41,9 +42,27 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.configure_predeploy(post_data)
             self.configure_children(post_data)
             self.configure_stack(post_data)
+
+            self.http_head(200, {'Content-Type': 'application/json'})
+            self.wfile.write(b'{"success":true}')
+            exit()
         else:
             self.http_head(404)
             self.wfile.write(b'404 Not found')
+
+    def configure_load(self, path):
+        class ConfigContextManager:
+            def __enter__(self, path):
+                self._path = path
+                self._data = yaml.load(open(f"../../{path}"))
+
+            def __getitem__(self, key):
+                return self._data[key]
+
+            def __exit__(self):
+                yaml.dump(self._data, open(f"../../{path}", 'w'))
+
+        return ConfigContextManager(path)
 
     def configure_predeploy(self, data):
         """
@@ -60,7 +79,22 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                                   - params.DevAwsAccountId   : DevAwsAccountId
                                   - params.ProdAwsAccountId  : ProdAwsAccountId
         """
-        pass
+        with self.configure_load('herd.predeploy.yaml') as config:
+            config['deployments'][0]['authentication']['profile'] = data['master_profile']
+
+            if len(data['predeploy_stack_name']) > 0:
+                config['deployments'][0]['stack_name'] = data['predeploy_stack_name']
+
+            if len(data['region']) > 0:
+                config['defaults']['region'] = data['region']
+
+        with self.configure_load('predeploy/params.yaml') as config:
+            config['params']['DevAwsAccountId'] = data['DevAwsAccountId']
+            config['params']['ProdAwsAccountId'] = data['ProdAwsAccountId']
+            if len(data['StagingBucketName']) > 0:
+                config['params']['StagingBucketName'] = data['StagingBucketName']
+
+
 
     def configure_children(self, data):
         """
@@ -78,7 +112,19 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             child/dev.params.yaml  - params.CentralAwsAccountId : CentralAwsAccountId
             child/prod.params.yaml - params.CentralAwsAccountId : CentralAwsAccountId
         """
-        pass
+        with self.configure_load('herd.deploy.yaml') as config:
+            for i, t in enumerate(('dev', 'prod')):
+                if len(data[f"{t}_stack_name"]) > 0:
+                    config['deployments'][i]['stack_name']                = data[f'{t}_stack_name']
+                config['deployments'][i]['authentication']['profile'] = data[f'{t}_profile']
+                if len(data['StagingBucketName']) > 0:
+                    config['deployments'][i]['sync']['bucket']        = data['StagingBucket']
+                if len(data['base_key']) > 0:
+                    config['deployments'][i]['sync']['base_key']      = data['base_key']
+
+        for it in ('dev', 'prod'):
+            with self.configure_load(f'child/{it}.params.yaml') as config:
+                config['params']['CentralAwsAccountId'] = data['CentralAwsAccountId']
 
     def configure_stack(self, data):
         """
@@ -92,79 +138,34 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                                    .authentication.profile       : master_profile
                                    .sync.bucket                  : StagingBucket
                                    .sync.base_key                : base_key
-            Stack Options:
-                stack/params.yaml - params.DevAwsAccountId      : DevAwsAccountId
-                                    params.ProdAwsAccountId     : ProdAwsAccountId
-                                    params.appName              : appName
-                                    params.QSS3BucketName       : StagingBucket
-                                    params.QSS3KeyPrefix        : base_key
-                                    params.StagingBucket        : StagingBucket
-                                    params.CCGroupName          : CCGroupName
+        Stack Options:
+            stack/params.yaml - params.DevAwsAccountId      : DevAwsAccountId
+                                params.ProdAwsAccountId     : ProdAwsAccountId
+                                params.appName              : appName
+                                params.QSS3BucketName       : StagingBucket
+                                params.QSS3KeyPrefix        : base_key
+                                params.StagingBucket        : StagingBucket
+                                params.CCGroupName          : CCGroupName
         """
-        pass
+        with self.configure_load('herd.deploy.yaml') as config:
+            config['deployments'][2]['authentication']['profile'] = data['master_profile']
+            if len(data['master_stack_name']) > 0:
+                config['deployments'][2]['stack_name']                = data['master_stack_name']
+            if len(data['StagingBucket']) > 0:
+                config['deployments'][2]['sync']['bucket']            = data['StagingBucket']
+            if len(data['base_key']) > 0:
+                config['deployments'][2]['sync']['base_key']          = data['base_key']
 
-
-            # Edit stack/params.yaml
-            with open('../../stack/params.yaml', 'r') as file:
-                params = file.readlines()
-            
-            params[2]  = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[3]  = f"    ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
-            params[4]  = f"    AppName: {post_data['appName']}\n"
-            params[5]  = f"    BuildImageName: aws/codebuild/standard:2.0\n"
-            params[6]  = f"    QSS3BucketName: {post_data['QSS3BucketName']}\n"
-            params[7]  = f"    QSS3KeyPrefix:  herd/test1\n"
-            params[8]  = f"    QSS3BucketRegion: {post_data['region']}\n"
-            params[9]  = f"    ProdChildAccountRoleName: pipeline-prod-role\n"
-            params[10] = f"    DevChildAccountRoleName: pipeline-dev-role\n"
-            params[11] = f"    StagingBucket: {post_data['StagingBucket']}\n"
-            params[12] = f"    FuzzerDeployKey: {post_data['fuzzer_deployment_key']}\n"
-
-            with open('../../stack/params.yaml', 'w') as file:
-                file.writelines(params)
-
-
-            # Edit child/dev.params.yaml
-            with open('../../child/dev.params.yaml', 'r') as file:
-                params = file.readlines()
-
-            params[2] = f"    CentralAwsAccountId: {post_data['CentralAwsAccountId']}\n"
-            params[3] = f"    ChildAccountRoleName: pipeline-dev-role\n"
-            
-            with open('../../child/dev.params.yaml', 'w') as file:
-                file.writelines(params)
-
-            
-            # Edit child/prod.params.yaml
-            with open('../../child/prod.params.yaml', 'r') as file:
-                params = file.readlines()
-
-            params[2] = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[3] = f"    ChildAccountRoleName: pipeline-prod-role\n"
-            
-            with open('../../child/prod.params.yaml', 'w') as file:
-                file.writelines(params)
-
-
-            # Edit predeploy/params.yaml
-            with open('../../predeploy/params.yaml', 'r') as file:
-                params = file.readlines()
-
-            params[2] = f"    StagingBucketName: {post_data['StagingBucket']}\n"
-            params[3] = f"    DevAwsAccountId: {post_data['DevAwsAccountId']}\n"
-            params[4] = f"    ProdAwsAccountId: {post_data['ProdAwsAccountId']}\n"
-            
-            with open('../../predeploy/params.yaml', 'w') as file:
-                file.writelines(params)
-
-            # herd.run_deployments(config)
-
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(b'{success: true}') # Send something so fetch doesnt produce an error
-
-            exit()
+        with self.configure_load('stack/params.yaml') as config:
+            config['params']['DevAwsAccountId']  = data['DevAwsAccountId']
+            config['params']['ProdAwsAccountId'] = data['ProdAwsAccountId']
+            config['params']['appName']          = data['appName']
+            if len(data['base_key']) > 0:
+                config['params']['QSS3KeyPrefix']    = data['base_key']
+            if len(data['StagingBucket']) > 0:
+                config['params']['QSS3BucketName']   = data['StagingBucket']
+                config['params']['StagingBucket']    = data['StagingBucket']
+            config['params']['CCGroupName']      = data['CCGroupName']
 
 def start_server():
     httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
