@@ -4,40 +4,49 @@ import time
 from multiprocessing import Process
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
+import mimetypes
 
 # Predeploy
 # Deploy
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def http_head(self, code=200, headers={}):
+        self.send_response(code)
+        for k, v in headers.items():
+            self.send_header(k, v)
+        self.end_headers()
+
     def do_GET(self):
         if self.path == '/':
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
-            self.end_headers()
+            self.http_head(200, {'Content-Type', 'text/html'})
             self.wfile.write(open('index.html', 'rb').read())
         elif os.path.basename(self.path) in ['full-stack.template.yaml']:
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/yaml')
-            self.end_headers()
+            self.http_head(200, {'Content-Type', 'text/yaml'})
             self.wfile.write(open(self.path[1:], 'rb').read())
         elif self.path.split('/')[1] in ["assets", "lib"]:
-            self.send_response(200)
-            self.end_headers()
+            file_path = self.path[1:].split('?')[0]
+            self.http_head(200, {'Content-Type', mimetypes.guess_type(file_path)[0]})
             self.wfile.write(open(self.path[1:].split('?')[0], 'rb').read())
         else:
-            self.send_response(404)
-            self.end_headers()
+            self.http_head(404)
             self.wfile.write(b'404 Not found')
 
     def do_POST(self):
         if self.path == '/deploy':
-            
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
 
-            print(post_data)
-
             post_data = json.loads(post_data)
+
+            self.configure_predeploy(post_data)
+            self.configure_children(post_data)
+            self.configure_stack(post_data)
+        else:
+            self.http_head(404)
+            self.wfile.write(b'404 Not found')
+
+    def configure_predeploy(self, data):
+
 
             # Edit stack/params.yaml
             with open('../../stack/params.yaml', 'r') as file:
