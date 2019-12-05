@@ -46,6 +46,62 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(b'404 Not found')
 
     def configure_predeploy(self, data):
+        """
+        configure_predeploy
+        -------------------
+
+        Configures predeploy options.
+        Herd Options:
+            herd.predeploy.yaml - deployments.authentication.profile : master_profile
+                                - deployments.stack_name             : predeploy_stack_name
+                                - defaults.region                    : region
+        Stack Options:
+            predeploy/params.yaml - params.StagingBucketName : StagingBucket 
+                                  - params.DevAwsAccountId   : DevAwsAccountId
+                                  - params.ProdAwsAccountId  : ProdAwsAccountId
+        """
+        pass
+
+    def configure_children(self, data):
+        """
+        configure_children
+        ------------------
+
+        Configures child options.
+        Herd Options:
+            herd.deploy.yaml - deployments[name=Unicorn dev | Unicorn prod]
+                                   .stack_name                               : [dev|prod]_stack_name
+                                   .authentication.profile                   : [dev|prod]_profile
+                                   .sync.bucket                              : StagingBucket
+                                   .sync.base_key                            : base_key
+        Stack Options:
+            child/dev.params.yaml  - params.CentralAwsAccountId : CentralAwsAccountId
+            child/prod.params.yaml - params.CentralAwsAccountId : CentralAwsAccountId
+        """
+        pass
+
+    def configure_stack(self, data):
+        """
+        configure_stack
+        ---------------
+
+        Configures stack topions.
+        Herd Options:
+            herd.deploy.yaml - deployments[name=Unicorn Tooling]
+                                   .stack_name                   : master_stack_name
+                                   .authentication.profile       : master_profile
+                                   .sync.bucket                  : StagingBucket
+                                   .sync.base_key                : base_key
+            Stack Options:
+                stack/params.yaml - params.DevAwsAccountId      : DevAwsAccountId
+                                    params.ProdAwsAccountId     : ProdAwsAccountId
+                                    params.appName              : appName
+                                    params.QSS3BucketName       : StagingBucket
+                                    params.QSS3KeyPrefix        : base_key
+                                    params.StagingBucket        : StagingBucket
+                                    params.CCGroupName          : CCGroupName
+        """
+        pass
 
 
             # Edit stack/params.yaml
