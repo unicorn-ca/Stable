@@ -95,8 +95,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         with self.configure_load('predeploy/params.yaml') as config:
             config['params']['DevAwsAccountId'] = data['DevAwsAccountId']
             config['params']['ProdAwsAccountId'] = data['ProdAwsAccountId']
-            if len(data['StagingBucketName']) > 0:
-                config['params']['StagingBucketName'] = data['StagingBucketName']
+            if len(data['StagingBucket']) > 0:
+                config['params']['StagingBucketName'] = data['StagingBucket']
 
 
 
@@ -121,7 +121,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 if len(data[f"{t}_stack_name"]) > 0:
                     config['deployments'][i]['stack_name']                = data[f'{t}_stack_name']
                 config['deployments'][i]['authentication']['profile'] = data[f'{t}_profile']
-                if len(data['StagingBucketName']) > 0:
+                if len(data['StagingBucket']) > 0:
                     config['deployments'][i]['sync']['bucket']        = data['StagingBucket']
                 if len(data['staging_bucket_key_prefix']) > 0:
                     config['deployments'][i]['sync']['staging_bucket_key_prefix']      = data['staging_bucket_key_prefix']
