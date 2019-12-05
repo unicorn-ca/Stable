@@ -166,6 +166,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             config['params']['appName']          = data['appName']
             if len(data['staging_bucket_key_prefix']) > 0:
                 config['params']['QSS3KeyPrefix']    = data['staging_bucket_key_prefix']
+                config['params']['FuzzerDeployKey']  = f"{data['staging_bucket_key_prefix']}/deployment.zip"
+                config['params']['AssuranceDeployKey']  = f"{data['staging_bucket_key_prefix']}/assurance.zip"
             if len(data['StagingBucket']) > 0:
                 config['params']['QSS3BucketName']   = data['StagingBucket']
                 config['params']['StagingBucket']    = data['StagingBucket']
