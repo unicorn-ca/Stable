@@ -52,14 +52,17 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def configure_load(self, path):
         class ConfigContextManager:
-            def __enter__(self, path):
+            def __init__(self, path):
                 self._path = path
+
+            def __enter__(self):
                 self._data = yaml.load(open(f"../../{path}"))
 
             def __getitem__(self, key):
                 return self._data[key]
 
-            def __exit__(self):
+            def __exit__(self, exception_type, exception_value, traceback):
+                # TODO: handle exceptions gracefully
                 yaml.dump(self._data, open(f"../../{path}", 'w'))
 
         return ConfigContextManager(path)
