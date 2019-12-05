@@ -56,14 +56,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self._path = path
 
             def __enter__(self):
-                self._data = yaml.load(open(f"../../{path}"))
-
-            def __getitem__(self, key):
-                return self._data[key]
+                self._data = yaml.load(open(f"../../{path}"), Loader=yaml.SafeLoader)
+                return self._data
 
             def __exit__(self, exception_type, exception_value, traceback):
-                # TODO: handle exceptions gracefully
-                yaml.dump(self._data, open(f"../../{path}", 'w'))
+                if exception_type is not None:
+                    # TODO: handle exceptions gracefully
+                    print('Failed')
+                else:
+                    yaml.dump(self._data, open(f"../../{path}", 'w'))
 
         return ConfigContextManager(path)
 

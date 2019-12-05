@@ -22,7 +22,6 @@ function build_pipeline_json() {
 		master_profile: document.getElementById('master_profile').value,
 		dev_profile: document.getElementById('dev_profile').value,
 	    prod_profile: document.getElementById('prod_profile').value,
-	    CCGroupName: document.getElementById('CCGroupName').value,
 
         predeploy_stack_name: document.getElementById('predeploy_stack_name').value,
 	    master_stack_name: document.getElementById('master_stack_name').value,
