@@ -13,8 +13,11 @@ $(document).ready(function(){
             next: "Next",
             previous: "Back"
         },
+        onStepChanging: (e, i) => {
+            return validate_visible();
+        },
         onStepChanged: function(event, currentIndex){
-            if(currentIndex == 2){
+            if(currentIndex == 3){
                 generateSummary();
             }
         },

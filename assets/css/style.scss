@@ -352,3 +352,31 @@ h2{
 		}
 	}
 }
+
+.text-content {
+    p {
+        font-size: 1rem;
+        text-align: left;
+        color: black;
+        font-weight: normal;
+    }
+}
+
+.form-row.danger {
+    input {
+        border-bottom: 2px solid #EF5350;
+        &::placeholder {
+            color: #EF5350;
+        }
+    }
+    p {
+        color: #EF5350;
+    }
+}
+
+.form-row.required-row {
+    .form-holder:first-child p:after {
+        content: '*'
+    }
+}
+

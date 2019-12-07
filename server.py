@@ -18,7 +18,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path == '/':
+        if self.path.split('?')[0] == '/':
             self.http_head(200, {'Content-Type': 'text/html'})
             self.wfile.write(open('index.html', 'rb').read())
         elif os.path.basename(self.path) in ['full-stack.template.yaml']:
