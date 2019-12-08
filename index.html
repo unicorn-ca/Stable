@@ -74,7 +74,7 @@
                             <p class="form-text tooltip" title="AWS account ID for the central account">Central Account ID</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="central_account_id" placeholder="Central Account ID" class="form-control" data-required>
+                            <input type="text" name="CentralAwsAccountId" id="central_account_id" placeholder="Central Account ID" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -82,7 +82,7 @@
                             <p class="form-text tooltip" title="AWS account ID for development account">Dev Account ID</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="dev_account_id" placeholder="Dev Account ID" class="form-control" data-required>
+                            <input type="text" name="DevAwsAccountId" id="dev_account_id" placeholder="Dev Account ID" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -90,7 +90,7 @@
                             <p class="form-text tooltip" title="AWS account ID for production account">Prod Account ID</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="prod_account_id" placeholder="Prod Account ID" class="form-control" data-required>
+                            <input type="text" name="ProdAwsAccountId" id="prod_account_id" placeholder="Prod Account ID" class="form-control" data-required>
                         </div>
                     </div>
                     <br/>
@@ -103,7 +103,7 @@
                             <p class="form-text tooltip" title="The region you are deploying to">Region</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="ap-southeast-2" id="region" placeholder="Region" class="form-control" data-required>
+                            <input type="text" name="region" value="ap-southeast-2" id="region" placeholder="Region" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -111,7 +111,7 @@
                             <p class="form-text tooltip" title="S3 deployment bucket name">Deploy Bucket Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="deployment_bucket_name" placeholder="Deploy Bucket Name" class="form-control" data-required>
+                            <input type="text" name="StagingBucket" id="deployment_bucket_name" placeholder="Deploy Bucket Name" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row">
@@ -119,7 +119,7 @@
                             <p class="form-text tooltip" title="Staging bucket key prefix">Staging Bucket Key Prefix</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="staging_bucket_key_prefix" placeholder="Staging Bucket Key Prefix" class="form-control">
+                            <input type="text" name="staging_bucket_key_prefix" id="staging_bucket_key_prefix" placeholder="Staging Bucket Key Prefix" class="form-control">
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -127,7 +127,7 @@
                             <p class="form-text tooltip" title="Name of the stack that should be created during the installation step">Install Stack Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="unicorn-predeploy" id="predeploy_stack_name" placeholder="Install Stack Name" class="form-control" data-required>
+                            <input type="text" name="predeploy_stack_name" value="unicorn-predeploy" id="predeploy_stack_name" placeholder="Install Stack Name" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -135,7 +135,7 @@
                             <p class="form-text tooltip" title="Name of the final pipeline stack that should be created">Pipeline Stack Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="unicorn-pipeline" id="master_stack_name" placeholder="Pipeline Stack Name" class="form-control" data-required>
+                            <input type="text" name="master_stack_name" value="unicorn-pipeline" id="master_stack_name" placeholder="Pipeline Stack Name" class="form-control" data-required>
                         </div>
                     </div>
                     <!--<div class="form-row">
@@ -155,7 +155,7 @@
                                 <p class="form-text tooltip" title="aws-cli profile for the dev account">Dev AWS-CLI Profile</p>
                             </div>
                             <div class="form-holder">
-                                <input type="text" id="dev_profile" placeholder="Dev Profile" class="form-control" data-required>
+                                <input type="text" name="dev_profile" id="dev_profile" placeholder="Dev Profile" class="form-control" data-required>
                             </div>
                         </div>
                         <div class="form-row required-row">
@@ -163,7 +163,7 @@
                                 <p class="form-text tooltip" title="aws-cli profile for the production account">Production AWS-CLI Profile</p>
                             </div>
                             <div class="form-holder">
-                                <input type="text" id="prod_profile" placeholder="Production Profile" class="form-control" data-required>
+                                <input type="text" name="prod_profile" id="prod_profile" placeholder="Production Profile" class="form-control" data-required>
                             </div>
                         </div>
                         <div class="form-row required-row">
@@ -171,7 +171,7 @@
                                 <p class="form-text tooltip" title="aws-cli profile for the master account">Master AWS-CLI Profile</p>
                             </div>
                             <div class="form-holder">
-                                <input type="text" id="master_profile" placeholder="Master Profile" class="form-control" data-required>
+                                <input type="text" name="master_profile" id="master_profile" placeholder="Master Profile" class="form-control" data-required>
                             </div>
                         </div>
                 </div>
@@ -189,12 +189,13 @@
 
                 <div class="form-content">
                     <p>API Options</p>
+                    <!-- NOTE: This isn't used -->
                     <div class="form-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="Your desired API runtime">API Runtime</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="api_runtime" placeholder="API Runtime" class="form-control">
+                            <input type="text" name="api_runtime" id="api_runtime" placeholder="API Runtime" class="form-control">
                             <!-- TODO: This should be a select -->
                         </div>
                     </div>
@@ -206,7 +207,7 @@
                             <p class="form-text tooltip" title="The name of your API">App Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="app_name" placeholder="App Name" class="form-control" data-required>
+                            <input type="text" name="appName" id="app_name" placeholder="App Name" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -214,7 +215,7 @@
                             <p class="form-text tooltip" title="Feature branch">Branch</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="master" id="branch" placeholder="Branch" class="form-control" data-required>
+                            <input type="text" name="branch" value="master" id="branch" placeholder="Branch" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -222,7 +223,7 @@
                             <p class="form-text tooltip" title="The name of the group with permissions to push to the project's CodeCommit repository">CodeCommit Group Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="codecommit_group_name" placeholder="CodeCommit Group Name" class="form-control" data-required>
+                            <input type="text" name="codecommit_group_name" id="codecommit_group_name" placeholder="CodeCommit Group Name" class="form-control" data-required>
                         </div>
                     </div>
                     <br/>
@@ -292,7 +293,7 @@
                             <p class="form-text tooltip" title="The name of your root cloudformation template (or the artifact produced by CodeBuild)">Deployment File Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="deployment_file_name" placeholder="Deployment File Name" class="form-control" data-required>
+                            <input type="text" name="deployment_file_name" id="deployment_file_name" placeholder="Deployment File Name" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -300,7 +301,7 @@
                             <p class="form-text tooltip" title="Name of the change set to be created with every deployment">Changeset Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="changeset_name" placeholder="Changeset Name" class="form-control" data-required>
+                            <input type="text" name="changset_name" id="changeset_name" placeholder="Changeset Name" class="form-control" data-required>
                         </div>
                     </div>
                     <div class="form-row required-row">
@@ -308,7 +309,7 @@
                             <p class="form-text tooltip" title="Key containing the name of the ApiGateway produced by your cloudformation deployment's output">ApiGateway CFN Output Key</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="cfn_output" placeholder="CFN Output Containing API Gateway URL" class="form-control" data-required>
+                            <input type="text" name="cfn_output" id="cfn_output" placeholder="CFN Output Containing API Gateway URL" class="form-control" data-required>
                         </div>
                     </div>
                     <br/>
@@ -318,7 +319,7 @@
                             <p class="form-text tooltip" title="CFN Stack name for production deployment">Production Stack Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="prod_stack_name" placeholder="Production Stack Name" class="form-control">
+                            <input type="text" name="prod_stack_name" id="prod_stack_name" placeholder="Production Stack Name" class="form-control">
                         </div>
                     </div>
                     <br/>
@@ -327,7 +328,7 @@
                             <p class="form-text tooltip" title="CFN Stack name for dev deployment">Dev Stack Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="dev_stack_name" placeholder="Dev Stack Name" class="form-control">
+                            <input type="text" name="dev_stack_name" id="dev_stack_name" placeholder="Dev Stack Name" class="form-control">
                         </div>
                     </div>
                     <!-- End TODO -->
@@ -339,7 +340,7 @@
                             <p class="form-text tooltip" title="Timeout in seconds">Timeout (s)</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="300" id="fuzzer_timeout" placeholder="Timeout" class="form-control" data-required>
+                            <input type="text" name="fuzzer_timeout" value="300" id="fuzzer_timeout" placeholder="Timeout" class="form-control" data-required>
                         </div>
                     </div>
 
