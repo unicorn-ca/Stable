@@ -122,20 +122,20 @@
                             <input type="text" id="staging_bucket_key_prefix" placeholder="Staging Bucket Key Prefix" class="form-control">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="Name of the stack that should be created during the installation step">Install Stack Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="unicorn-predeploy" id="predeploy_stack_name" placeholder="Install Stack Name" class="form-control">
+                            <input type="text" value="unicorn-predeploy" id="predeploy_stack_name" placeholder="Install Stack Name" class="form-control" data-required>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="Name of the final pipeline stack that should be created">Pipeline Stack Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" value="unicorn-pipeline" id="master_stack_name" placeholder="Pipeline Stack Name" class="form-control">
+                            <input type="text" value="unicorn-pipeline" id="master_stack_name" placeholder="Pipeline Stack Name" class="form-control" data-required>
                         </div>
                     </div>
                     <!--<div class="form-row">
@@ -195,37 +195,39 @@
                         </div>
                         <div class="form-holder">
                             <input type="text" id="api_runtime" placeholder="API Runtime" class="form-control">
+                            <!-- TODO: This should be a select -->
                         </div>
                     </div>
                     <br/>
 
                     <p>Commit Options</p>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="The name of your API">App Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="app_name" placeholder="App Name" class="form-control">
+                            <input type="text" id="app_name" placeholder="App Name" class="form-control" data-required>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="Feature branch">Branch</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="branch" placeholder="Branch" class="form-control">
+                            <input type="text" value="master" id="branch" placeholder="Branch" class="form-control" data-required>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="The name of the group with permissions to push to the project's CodeCommit repository">CodeCommit Group Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="codecommit_group_name" placeholder="CodeCommit Group Name" class="form-control">
+                            <input type="text" id="codecommit_group_name" placeholder="CodeCommit Group Name" class="form-control" data-required>
                         </div>
                     </div>
                     <br/>
 
+                    <!-- TODO: honestly might just cut this -->
                     <p>Build Options</p>
                     <div id="build_options">
                         <div class="form-row">
@@ -285,31 +287,32 @@
                     <br/>
 
                     <p>Deploy Options</p>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
-                            <p class="form-text tooltip" title="Deployment File Name">Deployment File Name</p>
+                            <p class="form-text tooltip" title="The name of your root cloudformation template (or the artifact produced by CodeBuild)">Deployment File Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="deployment_file_name" placeholder="Deployment File Name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-holder">
-                            <p class="form-text tooltip" title="Changeset Name">Changeset Name</p>
-                        </div>
-                        <div class="form-holder">
-                            <input type="text" id="changeset_name" placeholder="Changeset Name" class="form-control">
+                            <input type="text" id="deployment_file_name" placeholder="Deployment File Name" class="form-control" data-required>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
-                            <p class="form-text tooltip" title="CFN Output Containing API Gateway URL">CFN Output Containing API Gateway URL</p>
+                            <p class="form-text tooltip" title="Name of the change set to be created with every deployment">Changeset Name</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="cfn_output" placeholder="CFN Output Containing API Gateway URL" class="form-control">
+                            <input type="text" id="changeset_name" placeholder="Changeset Name" class="form-control" data-required>
+                        </div>
+                    </div>
+                    <div class="form-row required-row">
+                        <div class="form-holder">
+                            <p class="form-text tooltip" title="Key containing the name of the ApiGateway produced by your cloudformation deployment's output">ApiGateway CFN Output Key</p>
+                        </div>
+                        <div class="form-holder">
+                            <input type="text" id="cfn_output" placeholder="CFN Output Containing API Gateway URL" class="form-control" data-required>
                         </div>
                     </div>
                     <br/>
+                    <!-- TODO: Figure out where these are going -->
                     <div class="form-row">
                         <div class="form-holder">
                             <p class="form-text tooltip" title="CFN Stack name for production deployment">Production Stack Name</p>
@@ -327,15 +330,16 @@
                             <input type="text" id="dev_stack_name" placeholder="Dev Stack Name" class="form-control">
                         </div>
                     </div>
+                    <!-- End TODO -->
                     <br/>
 
                     <p>Fuzzer Options</p>
-                    <div class="form-row">
+                    <div class="form-row required-row">
                         <div class="form-holder">
-                            <p class="form-text tooltip" title="Timeout">Timeout</p>
+                            <p class="form-text tooltip" title="Timeout in seconds">Timeout (s)</p>
                         </div>
                         <div class="form-holder">
-                            <input type="text" id="fuzzer_timeout" placeholder="Timeout" class="form-control">
+                            <input type="text" value="300" id="fuzzer_timeout" placeholder="Timeout" class="form-control" data-required>
                         </div>
                     </div>
 
