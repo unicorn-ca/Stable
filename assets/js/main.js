@@ -15,6 +15,8 @@
             previous: "Back"
         },
         onStepChanging: (e, i) => {
+            // TODO: allow moving backward regardless of validation
+            console.log(e);
             let invalid_inputs = get_invalid_inputs(i);
             if(invalid_inputs.length == 0) {
                 $('.form-row', $(`section.page`, $wizard)[i])
