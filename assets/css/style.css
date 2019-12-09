@@ -310,3 +310,38 @@ h2 .step-text {
   margin-bottom: 2.5em;
   border-bottom: 1px solid #ddd;
   padding-bottom: 1em; }
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+.modal {
+  position: absolute;
+  z-index: 999;
+  background: white;
+  padding: 3rem;
+  min-width: 50vw;
+  min-height: 50vh; }
+  .modal .modal-header {
+    font-size: 2em;
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem; }
+  .modal .modal-body {
+    padding: 0.5rem;
+    height: 100%; }
+
+.progress-bar {
+  min-height: 2rem;
+  width: 100%; }
+  .progress-bar .progress-bar-wrapper {
+    min-height: 2rem;
+    background: #eee; }
+    .progress-bar .progress-bar-wrapper .progress-bar-progress {
+      min-height: 2rem;
+      background: green;
+      transition: width 0.5s ease-in-out 0s; }

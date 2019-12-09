@@ -41,26 +41,31 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             post_data = json.loads(post_data)
 
             self.http_head(200, {'Content-Type': 'text/plain'})
-            self.send_message('1', 'Setting up configuration files')
+            self.send_message('1/4', 'Setting up configuration files')
             #self.configure_predeploy(post_data)
             #self.configure_children(post_data)
             #self.configure_stack(post_data)
 
-            self.send_message('2', 'Deploying installation stack')
-            self.run_file_deployment('example/real.yaml')
-            self.send_message('3', 'Deploying child stacks')
-            self.send_message('4', 'Deploying pipeline')
+            self.send_message('2/4', 'Deploying installation stack')
+            self.run_file_deployment('example/real.yaml', '2/4')
+            self.send_message('3/4', 'Deploying child stacks')
+            self.send_message('4/4', 'Deploying pipeline')
 
             #exit()
         else:
             self.http_head(404)
             self.wfile.write(b'404 Not found')
 
-    def run_file_deployment(self, file):
+    def herd_streamer(self, message, log_type, eid):
+        if log_type == 'INFO': return
+        self.send_message(eid, message, log_type == 'ERROR')
+
+    def run_file_deployment(self, file, root_eid):
         cfg = yaml.load(open(file), Loader=yaml.SafeLoader)
-        for deployment in cfg['deployments']:
+        t_d = len(cfg['deployments'])
+        for d_id, deployment in enumerate(cfg['deployments']):
             deployer = hdi.Deployer()
-            deployer.set_logger(self.wfile, lambda m,p: m.encode() + b'\n')
+            deployer.set_logger(self.wfile, lambda m, p: self.herd_streamer(m, p, f'{root_eid}.{d_id+1}/{t_d}'))
             deployer.load_defaults(cfg['defaults'])
             deployer.deploy(deployment)
 
@@ -69,6 +74,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             json.dumps({'message': message, 'error': error, 'event_id': eid}).encode() +
             b'\n'
         )
+        self.wfile.flush()
 
     def configure_load(self, path):
         class ConfigContextManager:

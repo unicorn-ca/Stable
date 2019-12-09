@@ -93,7 +93,10 @@ function export_project() {
 }
 
 async function deploy_pipeline() {
-    const stream_decode = (data) => Array.from(data.value, r => String.fromCharCode(r)).join('');
+    const stream_decode = (data) => JSON.parse(
+        Array.from(data.value, r => String.fromCharCode(r)).join('')
+    );
+
     // Object.fromEntries isn't supported in Edge - TODO: polyfill
     const resp = await fetch("/deploy", {
         method: 'POST',
