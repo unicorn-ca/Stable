@@ -265,12 +265,6 @@ h2 .step-text {
     color: #fff; }
     .actions li:last-child a:hover {
       background: #849963; }
-    .actions li:last-child a:before {
-      content: 'Export';
-      position: absolute;
-      top: 11px;
-      right: 28px;
-      font-family: "Muli-SemiBold"; }
   .actions li[aria-disabled="true"] a {
     opacity: 0;
     transition: all 1s; }
@@ -296,3 +290,18 @@ h2 .step-text {
 
 .form-row.required-row .form-holder:first-child p:after {
   content: '*'; }
+
+.btn-group {
+  display: flex;
+  justify-content: space-around; }
+
+.btn {
+  min-width: 144px;
+  padding: 1em;
+  border-radius: 0;
+  border: 0; }
+  .btn.btn-primary {
+    background-color: #6d7f52;
+    color: white; }
+    .btn.btn-primary:hover {
+      background-color: #849963; }

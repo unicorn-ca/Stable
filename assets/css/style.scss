@@ -323,14 +323,6 @@ h2{
 				&:hover {
 					background: #849963;
 				}
-				&:before {
-					content: 'Export';
-					position: absolute;
-					top: 11px;
-					right: 28px;
-					font-family: "Muli-SemiBold";
-					// font-family: Material-Design-Iconic-Font;
-				}
 			}
 		}
 		&[aria-disabled="true"] {
@@ -380,3 +372,22 @@ h2{
     }
 }
 
+.btn-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+    min-width: 144px;
+    padding: 1em;
+    border-radius: 0;
+    border: 0;
+
+    &.btn-primary {
+        background-color: #6d7f52;
+        color: white;
+        &:hover {
+            background-color: #849963;
+        }
+    }
+}

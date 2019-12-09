@@ -1,2 +1,3 @@
 
-.icon-download:before { content: '\e800'; } /* '' */
+.icon-upload:before { content: '\e800'; } /* '' */
+.icon-export:before { content: '\e801'; } /* '' */
