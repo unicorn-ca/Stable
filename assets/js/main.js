@@ -28,12 +28,12 @@
 
             return false;
         },
-        onStepChanged: function(event, currentIndex){
+        onStepChanged: function(event, currentIndex) {
             if(currentIndex == 3){
                 generateSummary();
             }
         },
-        onFinished: function(event, currentIndex){
+        onFinished: function(event, currentIndex) {
             export_project();  
         }
     });
@@ -96,53 +96,27 @@ function export_project() {
 }
 
 function generateSummary() {
-	document.getElementById("summary_central_account_id").innerText        = document.getElementById("central_account_id").value;
-	document.getElementById("summary_dev_account_id").innerText            = document.getElementById("dev_account_id").value;
-	document.getElementById("summary_prod_account_id").innerText           = document.getElementById("prod_account_id").value;
-	document.getElementById("summary_region").innerText                    = document.getElementById("region").value;
-	document.getElementById("summary_deployment_bucket_name").innerText    = document.getElementById("deployment_bucket_name").value;
-	document.getElementById("summary_staging_bucket_key_prefix").innerText = document.getElementById("staging_bucket_key_prefix").value;
-    //document.getElementById("summary_fuzzer_deployment_key").innerText     = document.getElementById("fuzzer_deployment_key").value;
+    let input_frames = $('section > .form-content').slice(1).clone();
+    let summary = $('#summary-content');
+    input_frames.children().each((i, e) => {
+        // We complicate the logic slightly to prevent id/name collisions
+        if(e.classList.contains('form-row')) {
+            e = $(e);
 
-    document.getElementById("summary_api_runtime").innerText               = document.getElementById("api_runtime").value;
-	document.getElementById("summary_app_name").innerText                  = document.getElementById("app_name").value;
-    document.getElementById("summary_branch").innerText                    = document.getElementById("branch").value;
-    document.getElementById("summary_codecommit_group_name").innerText     = document.getElementById("codecommit_group_name").value;
-	document.getElementById("summary_codebuild_version").innerText         = document.getElementById("codebuild_version").value;
-	document.getElementById("summary_runtime_versions").innerText          = document.getElementById("runtime_versions").value;
-	document.getElementById("summary_pre_build_commands").innerText        = document.getElementById("pre_build_commands").value;
-	document.getElementById("summary_build_commands").innerText            = document.getElementById("build_commands").value;
-	document.getElementById("summary_post_build_commands").innerText       = document.getElementById("post_build_commands").value;
-	document.getElementById("summary_artifacts").innerText                 = document.getElementById("artifacts").value;
-
-	document.getElementById("summary_deployment_file_name").innerText      = document.getElementById("deployment_file_name").value;
-	document.getElementById("summary_changeset_name").innerText            = document.getElementById("changeset_name").value;
-	document.getElementById("summary_cfn_output").innerText                = document.getElementById("cfn_output").value;
-	document.getElementById("summary_fuzzer_timeout").innerText            = document.getElementById("fuzzer_timeout").value;
+            e.removeClass('required-row');
+            $('.tooltip', e)
+                .removeClass('tooltip')
+                .removeAttr('title');
+            let val = $(':input', e).val();
+            $(':input', e).replaceWith(`<p class="form-text">${val}</p>`);
+            summary.append(e);
+        } else {
+            summary.append(e);
+        }
+    });
 }
+})(jQuery);
 
 function autofill() {
-    document.getElementById("central_account_id").value = "833035787772";
-    document.getElementById("dev_account_id").value = "171350118496";
-    document.getElementById("prod_account_id").value = "220361783940";
-    document.getElementById("region").value = "ap-southeast-2";
-    document.getElementById("deployment_bucket_name").value = "unicorn-staging-bucket-9301secedu";
-    document.getElementById("staging_bucket_key_prefix").value = "unicorn-staging-bucket-9301secedu";
-    //document.getElementById("fuzzer_deployment_key").value = "herd/test1/deployment.zip";
-
-    document.getElementById("api_runtime").value = "python3.7";
-    document.getElementById("app_name").value = "Unicorn-API";
-    document.getElementById("branch").value = "";
-    document.getElementById("codebuild_version").value = "0.2";
-    document.getElementById("runtime_versions").value = "";
-    document.getElementById("pre_build_commands").value = "- echo 'pre build'";
-    document.getElementById("build_commands").value = "- echo 'build'";
-    document.getElementById("post_build_commands").value = "- echo 'post build'";
-    document.getElementById("artifacts").value = "";
-
-    document.getElementById("deployment_file_name").value = "";
-    document.getElementById("changeset_name").value = "";
-    document.getElementById("cfn_output").value = "";
-    document.getElementById("fuzzer_timeout").value = "";
+    jQuery(':input').each((i, e) => e.value = e.id);
 }
-})(jQuery)
