@@ -6,6 +6,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 import mimetypes
 import yaml
+from herd import deployment_interfaces as hdi
 
 # Predeploy
 # Deploy
@@ -39,16 +40,35 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
             post_data = json.loads(post_data)
 
-            self.configure_predeploy(post_data)
-            self.configure_children(post_data)
-            self.configure_stack(post_data)
+            self.http_head(200, {'Content-Type': 'text/plain'})
+            self.send_message('1', 'Setting up configuration files')
+            #self.configure_predeploy(post_data)
+            #self.configure_children(post_data)
+            #self.configure_stack(post_data)
 
-            self.http_head(200, {'Content-Type': 'application/json'})
-            self.wfile.write(b'{"success":true}')
-            exit()
+            self.send_message('2', 'Deploying installation stack')
+            self.run_file_deployment('example/real.yaml')
+            self.send_message('3', 'Deploying child stacks')
+            self.send_message('4', 'Deploying pipeline')
+
+            #exit()
         else:
             self.http_head(404)
             self.wfile.write(b'404 Not found')
+
+    def run_file_deployment(self, file):
+        cfg = yaml.load(open(file), Loader=yaml.SafeLoader)
+        for deployment in cfg['deployments']:
+            deployer = hdi.Deployer()
+            deployer.set_logger(self.wfile, lambda m,p: m.encode() + b'\n')
+            deployer.load_defaults(cfg['defaults'])
+            deployer.deploy(deployment)
+
+    def send_message(self, eid, message, error=None):
+        self.wfile.write(
+            json.dumps({'message': message, 'error': error, 'event_id': eid}).encode() +
+            b'\n'
+        )
 
     def configure_load(self, path):
         class ConfigContextManager:
@@ -184,5 +204,5 @@ if __name__ == '__main__':
     os.system("cmd.exe /C 'start http://127.0.0.1:8000'")
     url = "http://127.0.0.1:8000"
     webbrowser.open_new(url)
-    
+
     # print("Error no default browser found on your device. To view the wizard open a browser and go to 'http://127.0.0.1:8000' cheers")

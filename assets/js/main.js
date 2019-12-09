@@ -61,7 +61,7 @@ $(document.body).on('mouseenter', '.tooltip:not(.tooltipstered)', () => {
 
 $('#export').on('click', _ => export_project());
 
-$('#deploy').on('click', _ => deploy_pipeline());
+$('#deploy').on('click', async _ => deploy_pipeline());
 
 function get_invalid_inputs(step) {
     return $(':input:not(button)', $(`section.page`, $wizard)[step])
@@ -92,10 +92,25 @@ function export_project() {
 	});
 }
 
-function deploy_pipeline() {
-    console.log('Would deploy'); return false;
-	var pipeline_json = build_pipeline_json();
-	send_data_to_server(pipeline_json);
+async function deploy_pipeline() {
+    const stream_decode = (data) => Array.from(data.value, r => String.fromCharCode(r)).join('');
+    // Object.fromEntries isn't supported in Edge - TODO: polyfill
+    const resp = await fetch("/deploy", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData($wizard[0])))
+    });
+
+    const body_stream = resp.body.getReader();
+    let stream_data = await body_stream.read();
+    while(!stream_data.done) {
+        console.log(stream_decode(stream_data));
+        stream_data = await body_stream.read();
+    }
+
+    console.log('Done')
 }
 
 function generateSummary() {
