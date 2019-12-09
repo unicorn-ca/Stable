@@ -36,6 +36,8 @@ $wizard.steps({
         close_wizard();
     }
 });
+// We never want the form to submit
+$wizard.on('submit', e=>e.preventDefault());
 
 $('.steps li a', $wizard).click(function(){
     $(this).parent().addClass('checked');
