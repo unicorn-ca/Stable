@@ -93,9 +93,34 @@ function export_project() {
 }
 
 async function deploy_pipeline() {
-    const stream_decode = (data) => JSON.parse(
-        Array.from(data.value, r => String.fromCharCode(r)).join('')
-    );
+    $('[data-modal="deploy"]').css('display', 'block');
+
+    const stream_decode = (data) => Array.from(
+        data.value, r => String.fromCharCode(r)
+    ).join('').trim().split('\n').map(o => JSON.parse(o));
+    const get_progress = (eid) => {
+        let modifier = 100;
+        let progress = 0;
+        let major = 1;
+        eid.split('.').forEach(part => {
+            const div = part.split('/');
+            // Magic: we want the major event_id to resolve correctly
+            // i.e. 2/4 --> 50%
+            // however minor ids should not be able to push to the next major jump
+            //
+            // e.g. if 1/4 --> 25%, 1/4.1/1 should not = 50%
+            //         2/4 should be the first instance of 50%
+            // We do this by subtracting 1 off minor versions
+            // so 1/4.1/1 --> 1/4.0/1 --> 25%
+            //    1/4.2/2 --> 1/4.1/2 --> 37.5%
+            //
+            // Which is expected
+            progress += (modifier *= (div[0]-(2+~major))/div[1]);
+            major = 0;
+        });
+
+        return progress;
+    };
 
     // Object.fromEntries isn't supported in Edge - TODO: polyfill
     const resp = await fetch("/deploy", {
@@ -108,12 +133,28 @@ async function deploy_pipeline() {
 
     const body_stream = resp.body.getReader();
     let stream_data = await body_stream.read();
-    while(!stream_data.done) {
-        console.log(stream_decode(stream_data));
+    let errored = false;
+    while(!stream_data.done && !errored) {
+        const message = stream_decode(stream_data);
+        for(const m of message) {
+            const total_progress = get_progress(m['event_id']);
+            const major_eid = m['event_id'].split('.')[0];
+            const client_view = `${major_eid}: ${m['message']}`;
+            $('.progress-bar-progress').css('width', `${total_progress}%`);
+            $('.progress-info').text(client_view);
+            $('.event-log').append(`${client_view}<br>`);
+            if(m['error']) {
+                $('.progress-bar-progress').css('background', 'red');
+                errored = true;
+                break;
+            }
+        };
         stream_data = await body_stream.read();
     }
 
-    console.log('Done')
+    if(!errored) {
+        console.log('Success!');
+    }
 }
 
 function generateSummary() {

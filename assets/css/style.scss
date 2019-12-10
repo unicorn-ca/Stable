@@ -443,3 +443,15 @@ h2{
         }
     }
 }
+
+.event-log-container {
+    margin: 1.5em 0 10px 0;
+}
+
+.event-log {
+    font-family: monospace;
+    background-color: #ddd;
+    padding: 1em;
+    overflow: scroll;
+    line-height: 1.5;
+}

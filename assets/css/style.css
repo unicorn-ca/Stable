@@ -345,3 +345,13 @@ h2 .step-text {
       min-height: 2rem;
       background: green;
       transition: width 0.5s ease-in-out 0s; }
+
+.event-log-container {
+  margin: 1.5em 0 10px 0; }
+
+.event-log {
+  font-family: monospace;
+  background-color: #ddd;
+  padding: 1em;
+  overflow: scroll;
+  line-height: 1.5; }
