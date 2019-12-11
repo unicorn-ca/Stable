@@ -117,7 +117,7 @@ function export_project() {
 }
 
 async function deploy_pipeline() {
-    $('[data-modal="deploy"]').css('display', 'block');
+    $('[data-modal="deploy"]').fadeIn(500);
 
     const stream_decode = (data) => Array.from(
         data.value, r => String.fromCharCode(r)
@@ -210,6 +210,6 @@ function autofill() {
 
 
 $(".modal-overlay").click(function(){
-    $("body").find(".modal").hide();
-    $("body").find(".modal-overlay").hide();
+    $("body").find(".modal").fadeOut(500);
+    $("body").find(".modal-overlay").fadeOut(500);
 });
