@@ -46,7 +46,7 @@ $('.steps li a', $wizard).click(function(){
 });
 
 // Tooltipsters
-$(document.body).on('mouseenter', '.tooltip:not(.tooltipstered)', () => {
+$(document.body).on('mouseenter', '.tooltip:not(.tooltipstered)', function() {
     $(this)
         .tooltipster({ 
             theme: 'tooltipster-light',
