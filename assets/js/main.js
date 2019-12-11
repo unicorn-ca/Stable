@@ -94,7 +94,7 @@ function get_invalid_inputs(step) {
 }
 
 function close_wizard() {
-    console.log('Would close');
+    alert('Thank you for using the wizard. Please close this browser tab');
 }
 
 function export_project() {
@@ -153,9 +153,10 @@ async function init_deploy_pipeline() {
             major = 0;
         });
 
-        return progress;
+        return progress > 100 ? 100 : progress;
     };
 
+    alert('Your deployment has started - please check AWS cloudformation for details');
     // Object.fromEntries isn't supported in Edge - TODO: polyfill
     const resp = await fetch("/deploy", {
         method: 'POST',
@@ -187,7 +188,7 @@ async function init_deploy_pipeline() {
     }
 
     if(!errored) {
-        console.log('Success!');
+        alert('Deployment Finished!');
     }
 }
 
