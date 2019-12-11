@@ -8,8 +8,7 @@ import mimetypes
 import yaml
 from herd import deployment_interfaces as hdi
 
-# Predeploy
-# Deploy
+PIPELINE_ROOT = './'
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def http_head(self, code=200, headers={}):
@@ -41,15 +40,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             post_data = json.loads(post_data)
 
             self.http_head(200, {'Content-Type': 'text/plain'})
-            self.send_message('1/4', 'Setting up configuration files')
-            #self.configure_predeploy(post_data)
-            #self.configure_children(post_data)
-            #self.configure_stack(post_data)
+            self.send_message('1/3', 'Setting up configuration files')
+            self.configure_predeploy(post_data)
+            self.configure_children(post_data)
+            self.configure_stack(post_data)
 
-            self.send_message('2/4', 'Deploying installation stack')
-            self.run_file_deployment('example/real.yaml', '2/4')
-            self.send_message('3/4', 'Deploying child stacks')
-            self.send_message('4/4', 'Deploying pipeline')
+            self.send_message('2/3', 'Deploying installation stack')
+            if not self.run_file_deployment('herd.predeploy.yaml', root_dir=PIPELINE_ROOT, root_eid='2/3'): return
+            self.send_message('3/3', 'Running installation')
+            if not self.run_file_deployment('herd.deploy.yaml', root_dir=PIPELINE_ROOT, root_eid='3/3'): return
 
             #exit()
         else:
@@ -60,14 +59,22 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         if log_type == 'INFO': return
         self.send_message(eid, message, log_type == 'ERROR')
 
-    def run_file_deployment(self, file, root_eid):
+    def run_file_deployment(self, file, root_dir='./', root_eid=''):
+        init_dir = os.getcwd()
+        os.chdir(root_dir)
+
         cfg = yaml.load(open(file), Loader=yaml.SafeLoader)
         t_d = len(cfg['deployments'])
         for d_id, deployment in enumerate(cfg['deployments']):
             deployer = hdi.Deployer()
             deployer.set_logger(self.wfile, lambda m, p: self.herd_streamer(m, p, f'{root_eid}.{d_id+1}/{t_d}'))
             deployer.load_defaults(cfg['defaults'])
-            deployer.deploy(deployment)
+            if deployer.deploy(deployment) is None:
+                os.chdir(init_dir)
+                return False
+
+        os.chdir(init_dir)
+        return True
 
     def send_message(self, eid, message, error=None):
         self.wfile.write(
@@ -82,7 +89,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self._path = path
 
             def __enter__(self):
-                self._data = yaml.load(open(f"../../{path}"), Loader=yaml.SafeLoader)
+                self._data = yaml.load(open(f"{PIPELINE_ROOT}/{path}"), Loader=yaml.SafeLoader)
                 return self._data
 
             def __exit__(self, exception_type, exception_value, traceback):
@@ -90,7 +97,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     # TODO: handle exceptions gracefully
                     print('Failed')
                 else:
-                    yaml.dump(self._data, open(f"../../{path}", 'w'))
+                    yaml.dump(self._data, open(f"{PIPELINE_ROOT}/{path}", 'w'))
 
         return ConfigContextManager(path)
 
@@ -105,7 +112,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                                 - deployments.stack_name             : predeploy_stack_name
                                 - defaults.region                    : region
         Stack Options:
-            predeploy/params.yaml - params.StagingBucketName : StagingBucket 
+            predeploy/params.yaml - params.StagingBucketName : StagingBucket
                                   - params.DevAwsAccountId   : DevAwsAccountId
                                   - params.ProdAwsAccountId  : ProdAwsAccountId
         """
@@ -204,11 +211,13 @@ def start_server():
     httpd.serve_forever()
 
 if __name__ == '__main__':
+    import sys
+    try:
+        PIPELINE_ROOT = sys.argv[1]
+    except IndexError: pass
     p1 = Process(target=start_server)
     p1.start()
 
-    os.system("cmd.exe /C 'start http://127.0.0.1:8000'")
+    #os.system("cmd.exe /C 'start http://127.0.0.1:8000'")
     url = "http://127.0.0.1:8000"
     webbrowser.open_new(url)
-
-    # print("Error no default browser found on your device. To view the wizard open a browser and go to 'http://127.0.0.1:8000' cheers")
