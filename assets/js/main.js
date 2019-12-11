@@ -116,9 +116,19 @@ function export_project() {
 	});
 }
 
-async function deploy_pipeline() {
-    $('[data-modal="deploy"]').fadeIn(500);
+// Open the modal and deploy if necessary
+var deploy_init_flag = true;
+function deploy_pipeline(){
+    if(deploy_init_flag){ // Only deploy the pipeline once
+        deploy_init_flag = false;
+        init_deploy_pipeline();
+    }
 
+    $('[data-modal="deploy"]').fadeIn(500);
+}
+
+// Deploy the pipeline locally
+async function init_deploy_pipeline() {
     const stream_decode = (data) => Array.from(
         data.value, r => String.fromCharCode(r)
     ).join('').trim().split('\n').map(o => JSON.parse(o));
@@ -181,6 +191,12 @@ async function deploy_pipeline() {
     }
 }
 
+// close the modal
+$(".modal-overlay").click(function(){
+    $("body").find(".modal").fadeOut(500);
+    $("body").find(".modal-overlay").fadeOut(500);
+});
+
 function generateSummary() {
     let input_frames = $('section > .form-content').slice(1).clone();
     let summary = $('#summary-content');
@@ -207,9 +223,3 @@ function generateSummary() {
 function autofill() {
     jQuery(':input:not(button)').each((i, e) => e.value = e.id);
 }
-
-
-$(".modal-overlay").click(function(){
-    $("body").find(".modal").fadeOut(500);
-    $("body").find(".modal-overlay").fadeOut(500);
-});
