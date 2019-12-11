@@ -14,17 +14,25 @@ $wizard.steps({
         next: "Next",
         previous: "Back"
     },
-    onStepChanging: (e, i) => {
-        // TODO: allow moving backward regardless of validation
-        let invalid_inputs = get_invalid_inputs(i);
-        if(invalid_inputs.length == 0) {
-            $('.form-row', $(`section.page`, $wizard)[i])
-                .each((i, e) => e.classList.remove('danger'));
+    onStepChanging: (e, i, n) => {
+        // Allow moving backward regardless of validation
+        if (i > n) {
+            changeStep(n);
             return true;
         }
 
-        invalid_inputs.each((i, e) => $(e).closest('.form-row').addClass('danger'));
+        // Form validation
+        let invalid_inputs = get_invalid_inputs(i);
+        if(invalid_inputs.length == 0) { // All fields on this step are fine
+            $('.form-row', $(`section.page`, $wizard)[i])
+                .each((i, e) => e.classList.remove('danger'));
 
+            changeStep(n);
+            return true;
+        }
+
+        // Some fields in this step are not valid - highlight them
+        invalid_inputs.each((i, e) => $(e).closest('.form-row').addClass('danger'));
         return false;
     },
     onStepChanged: function(event, currentIndex) {
@@ -39,11 +47,27 @@ $wizard.steps({
 // We never want the form to submit
 $wizard.on('submit', e=>e.preventDefault());
 
-$('.steps li a', $wizard).click(function(){
-    $(this).parent().addClass('checked');
-    $(this).parent().prevAll().addClass('checked');
-    $(this).parent().nextAll().removeClass('checked');
-});
+// Old way of changing step
+// $('.steps li a', $wizard).click(function(){
+    //     $(this).parent().addClass('checked');
+    //     $(this).parent().prevAll().addClass('checked');
+    //     $(this).parent().nextAll().removeClass('checked');
+    // });
+    
+// Contrived way to change the step
+// New way to change step
+function changeStep(currentIndex){
+    var steps = $('.steps li', $wizard);
+    for(var i = 0; i < steps.length; i++){
+        var c = steps[i];
+        if(i <= currentIndex){
+            c.classList.add('checked');
+        } else {
+            c.classList.remove('checked');
+        }
+    }
+}
+
 
 // Tooltipsters
 $(document.body).on('mouseenter', '.tooltip:not(.tooltipstered)', function() {
