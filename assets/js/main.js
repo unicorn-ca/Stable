@@ -207,3 +207,9 @@ function generateSummary() {
 function autofill() {
     jQuery(':input:not(button)').each((i, e) => e.value = e.id);
 }
+
+
+$(".modal-overlay").click(function(){
+    $("body").find(".modal").hide();
+    $("body").find(".modal-overlay").hide();
+});
